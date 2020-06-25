@@ -20,8 +20,8 @@ entity *new_entity(const char *uuid) {
 
 void free_entity(const entity* entity) {
 	free((void*)entity->uuid);
-	int i = 0;
 	if (entity->aliases) {
+		int i = 0;
 		while (entity->aliases[i]) {
 			free((void*)entity->aliases[i]);
 		}
