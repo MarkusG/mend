@@ -1,21 +1,14 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <string.h>
 
-#include <libpq-fe.h>
-
-#include "../include/mend.h"
+#include "command/command.h"
 
 int main(int argc, char *argv[])
 {
-	mend_init("dbname=mend");
-	entity **mark_entities = get_entities_from_alias("Mark");
-	int i = 0;
-	while (mark_entities[i]) {
-		printf("%s\n", entity_uuid(mark_entities[i]));
-		free_entity(mark_entities[i]);
-		++i;
-	}
-	free(mark_entities);
-	mend_cleanup();
+	options opts;
+	parse_options(&opts, argc, argv);
+	char *cmd = opts.identifiers[0];
+	if (strcmp(cmd, "le") == 0 || strcmp(cmd, "list-entities") == 0)
+		list_entities(&opts);
 	return 0;
 }

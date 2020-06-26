@@ -31,12 +31,9 @@ headers = []
 
 subdir('src')
 # subdir('doc')
-subdir('lib')
 
 exe = executable(meson.project_name(),
   sources + headers,
   dependencies: deps,
-  link_with: lib,
   install: true
 )
-
