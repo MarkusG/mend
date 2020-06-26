@@ -47,3 +47,11 @@ CREATE TRIGGER set_timestamp
 BEFORE UPDATE ON relation
 FOR EACH ROW
 	EXECUTE PROCEDURE trigger_update();
+
+CREATE VIEW primary_alias AS
+SELECT DISTINCT ON (entity) entity, value AS alias
+FROM
+(
+	SELECT * FROM alias
+	ORDER BY precedence
+) AS tbl;
