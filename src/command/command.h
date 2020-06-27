@@ -1,5 +1,7 @@
 #ifndef __MEND_COMMAND_H__
 #define __MEND_COMMAND_H__
+#include <libpq-fe.h>
+
 typedef enum command {
 	LIST_ENTITIES,
 	CREATE_ENTITY,
@@ -19,6 +21,6 @@ typedef struct optionss {
 	char **identifiers;
 } options;
 
-void list_entities(options*);
+void list_entities(PGconn*, options*);
 int parse_options(options*, int, char*[]);
 #endif /* ifndef __MEND_COMMAND_H__ */
