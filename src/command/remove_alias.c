@@ -45,6 +45,12 @@ void remove_alias(PGconn *conn, options *options) {
 				exit(1);
 		}
 
+		if (PQntuples(result) == 0) {
+			fprintf(stderr, WARN "no alias with identifier '%s'\n", id);
+			++i;
+			continue;
+		}
+
 		const char *entity = PQgetvalue(result, 0, 0);
 		PGresult *check_result = PQexecParams(conn,
 				"SELECT * FROM primary_alias"
