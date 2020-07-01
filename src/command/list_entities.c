@@ -31,12 +31,7 @@ void list_entities(PGconn *conn, options *options) {
 
 			switch (PQresultStatus(result)) {
 				case PGRES_TUPLES_OK:
-					// intended behavior
 					break;
-				case PGRES_COMMAND_OK:
-					// we got no data back
-					fprintf(stderr, "Identifier not found: %s\n", id);
-					exit(1);
 				default:
 					// unexpected response
 					fprintf(stderr, "%s: %s",
@@ -66,10 +61,6 @@ void list_entities(PGconn *conn, options *options) {
 				0);
 		switch (PQresultStatus(result)) {
 			case PGRES_TUPLES_OK:
-				// intended behavior
-				break;
-			case PGRES_COMMAND_OK:
-				// we got no data back
 				break;
 			default:
 				// unexpected response
