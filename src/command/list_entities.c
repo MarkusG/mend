@@ -48,6 +48,7 @@ void list_entities(PGconn *conn, options *options) {
 						PQgetvalue(result, i, 1));
 			}
 			++i;
+			PQclear(result);
 		}
 	} else {
 		PGresult *result = PQexecParams(conn,
@@ -75,5 +76,6 @@ void list_entities(PGconn *conn, options *options) {
 					PQgetvalue(result, i, 0),
 					PQgetvalue(result, i, 1));
 		}
+		PQclear(result);
 	}
 }

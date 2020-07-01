@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "command/command.h"
@@ -19,5 +19,8 @@ int main(int argc, char *argv[])
 		list_entities(conn, &opts);
 	if (strcmp(cmd, "ce") == 0 || strcmp(cmd, "create-entity") == 0)
 		create_entity(conn, &opts);
+
+	PQfinish(conn);
+	free(opts.identifiers);
 	return 0;
 }
