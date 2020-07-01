@@ -30,8 +30,8 @@ void create_entity(PGconn *conn, options *options) {
 	if (options->identifiers[1]) {
 		const char *const params[] = { uid, options->identifiers[1] };
 		PGresult *alias_result = PQexecParams(conn,
-				"INSERT INTO alias (entity, value, precedence) "
-				"VALUES ($1, $2, 0)",
+				"INSERT INTO alias (entity, value) "
+				"VALUES ($1, $2)",
 				2,
 				NULL,
 				params,
