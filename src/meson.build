@@ -3,5 +3,5 @@ sources += [
   files('utils.c'),
   files('command/parse.c'),
   files('command/list_entities.c'),
-  files('command/new_entity.c')
+  files('command/create_entity.c')
 ]
