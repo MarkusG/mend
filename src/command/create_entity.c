@@ -20,7 +20,7 @@ void create_entity(PGconn *conn, options *options) {
 			break;
 		default:
 			// unexpected response
-			fprintf(stderr, "%s: %s",
+			fprintf(stderr, ERR "%s: %s",
 					PQresStatus(PQresultStatus(result)),
 					PQresultErrorMessage(result));
 			exit(1);
@@ -44,7 +44,7 @@ void create_entity(PGconn *conn, options *options) {
 				break;
 			default:
 				// unexpected response
-				fprintf(stderr, "%s: %s",
+				fprintf(stderr, ERR "%s: %s",
 						PQresStatus(PQresultStatus(alias_result)),
 						PQresultErrorMessage(alias_result));
 				exit(1);

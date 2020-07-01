@@ -5,7 +5,7 @@
 
 void remove_entity(PGconn *conn, options *options) {
 	if (!options->identifiers[1]) {
-		fprintf(stderr, "No identifier specified\n");
+		fprintf(stderr, ERR "no identifier specified\n");
 		exit(1);
 	}
 
@@ -13,7 +13,7 @@ void remove_entity(PGconn *conn, options *options) {
 	const char *id;
 	while ((id = options->identifiers[i])) {
 		if (!is_uuid(id)) {
-			fprintf(stderr, "Identifier '%s' is not a UUID\n", id);
+			fprintf(stderr, WARN "identifier '%s' is not a UUID\n", id);
 			++i;
 			continue;
 		}
@@ -33,7 +33,7 @@ void remove_entity(PGconn *conn, options *options) {
 				break;
 			default:
 				// unexpected response
-				fprintf(stderr, "%s: %s",
+				fprintf(stderr, ERR "%s: %s",
 						PQresStatus(PQresultStatus(result)),
 						PQresultErrorMessage(result));
 				exit(1);

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdarg.h>
 
 int is_uuid(const char *input) {
 	unsigned int a, b, c, d, e;

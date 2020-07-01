@@ -5,7 +5,7 @@
 
 void remove_alias(PGconn *conn, options *options) {
 	if (!options->identifiers[1]) {
-		fprintf(stderr, "No identifier specified\n");
+		fprintf(stderr, ERR "no identifier specified\n");
 		exit(1);
 	}
 
@@ -39,7 +39,7 @@ void remove_alias(PGconn *conn, options *options) {
 				break;
 			default:
 				// unexpected response
-				fprintf(stderr, "%s: %s",
+				fprintf(stderr, ERR "%s: %s",
 						PQresStatus(PQresultStatus(result)),
 						PQresultErrorMessage(result));
 				exit(1);
@@ -61,14 +61,14 @@ void remove_alias(PGconn *conn, options *options) {
 				break;
 			default:
 				// unexpected response
-				fprintf(stderr, "%s: %s",
+				fprintf(stderr, ERR "%s: %s",
 						PQresStatus(PQresultStatus(result)),
 						PQresultErrorMessage(result));
 				exit(1);
 		}
 
 		if (PQntuples(check_result) == 0)
-			fprintf(stderr, "Entity %s no longer has any aliases\n", entity);
+			fprintf(stderr, WARN "entity %s no longer has any aliases\n", entity);
 
 		++i;
 		PQclear(result);
