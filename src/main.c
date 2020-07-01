@@ -19,6 +19,8 @@ int main(int argc, char *argv[])
 		list_entities(conn, &opts);
 	if (strcmp(cmd, "ce") == 0 || strcmp(cmd, "create-entity") == 0)
 		create_entity(conn, &opts);
+	if (strcmp(cmd, "re") == 0 || strcmp(cmd, "remove-entity") == 0)
+		remove_entity(conn, &opts);
 
 	PQfinish(conn);
 	free(opts.identifiers);

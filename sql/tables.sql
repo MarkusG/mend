@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS entity (
 
 CREATE TABLE IF NOT EXISTS alias (
 	uid UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-	entity UUID NOT NULL REFERENCES entity(uid),
+	entity UUID NOT NULL REFERENCES entity(uid) ON DELETE CASCADE,
 	value TEXT NOT NULL,
 	precedence INTEGER,
 	since TIMESTAMP NOT NULL DEFAULT now()
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS alias (
 
 CREATE TABLE IF NOT EXISTS annotation (
 	uid UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-	entity UUID NOT NULL REFERENCES entity(uid),
+	entity UUID NOT NULL REFERENCES entity(uid) ON DELETE CASCADE,
 	value TEXT NOT NULL,
 	created TIMESTAMP NOT NULL DEFAULT now(),
 	updated TIMESTAMP NOT NULL DEFAULT now()
@@ -36,8 +36,8 @@ FOR EACH ROW
 
 CREATE TABLE IF NOT EXISTS relation (
 	uid UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-	entity_a UUID NOT NULL REFERENCES entity(uid),
-	entity_b UUID NOT NULL REFERENCES entity(uid),
+	entity_a UUID NOT NULL REFERENCES entity(uid) ON DELETE CASCADE,
+	entity_b UUID NOT NULL REFERENCES entity(uid) ON DELETE CASCADE,
 	annotation TEXT,
 	created TIMESTAMP NOT NULL DEFAULT now(),
 	updated TIMESTAMP NOT NULL DEFAULT now()
