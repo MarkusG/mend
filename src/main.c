@@ -17,5 +17,7 @@ int main(int argc, char *argv[])
 	char *cmd = opts.identifiers[0];
 	if (strcmp(cmd, "le") == 0 || strcmp(cmd, "list-entities") == 0)
 		list_entities(conn, &opts);
+	if (strcmp(cmd, "ce") == 0 || strcmp(cmd, "create-entity") == 0)
+		create_entity(conn, &opts);
 	return 0;
 }
