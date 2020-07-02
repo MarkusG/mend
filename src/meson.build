@@ -3,11 +3,11 @@ sources += [
   files('utils.c'),
   files('command/parse.c'),
   files('command/list_entities.c'),
-  files('command/create_entity.c'),
+  files('command/new_entity.c'),
   files('command/remove_entity.c'),
-  files('command/create_alias.c'),
+  files('command/new_alias.c'),
   files('command/remove_alias.c'),
-  files('command/create_annotation.c'),
-  files('command/update_annotation.c'),
-  files('command/remove_annotation.c')
+  files('command/new_note.c'),
+  files('command/edit_note.c'),
+  files('command/remove_note.c')
 ]

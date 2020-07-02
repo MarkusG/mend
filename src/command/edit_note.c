@@ -4,8 +4,8 @@
 #include "command.h"
 #include "../utils.h"
 
-// TODO open the user's editor to create the annotation
-void update_annotation(PGconn *conn, options *options) {
+// TODO open the user's editor to create the note
+void edit_note(PGconn *conn, options *options) {
 	const char *id = options->identifiers[1];
 	if (!id) {
 		fprintf(stderr, ERR "no identifier specified\n");
@@ -27,7 +27,7 @@ void update_annotation(PGconn *conn, options *options) {
 	};
 
 	PGresult *result = PQexecParams(conn,
-			"UPDATE annotation "
+			"UPDATE note "
 			"SET value = $2 "
 			"WHERE uid = $1 "
 			"RETURNING uid",
@@ -52,7 +52,7 @@ void update_annotation(PGconn *conn, options *options) {
 	// TODO offer to create
 	// will probably implement after extracting common functionality to a library
 	if (PQntuples(result) == 0)
-		fprintf(stderr, ERR "annotation %s not found\n", id);
+		fprintf(stderr, ERR "note %s not found\n", id);
 	else
 		printf("%s\n", PQgetvalue(result, 0, 0));
 	PQclear(result);

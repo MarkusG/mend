@@ -3,7 +3,7 @@
 #include "command.h"
 #include "../utils.h"
 
-void create_entity(PGconn *conn, options *options) {
+void new_entity(PGconn *conn, options *options) {
 	PGresult *result = PQexecParams(conn,
 			"INSERT INTO entity "
 			"DEFAULT VALUES "

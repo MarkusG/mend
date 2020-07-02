@@ -3,7 +3,7 @@
 #include "command.h"
 #include "../utils.h"
 
-void remove_annotation(PGconn *conn, options *options) {
+void remove_note(PGconn *conn, options *options) {
 	if (!options->identifiers[1]) {
 		fprintf(stderr, ERR "no identifier specified\n");
 		exit(1);
@@ -19,7 +19,7 @@ void remove_annotation(PGconn *conn, options *options) {
 		}
 
 		PGresult *result = PQexecParams(conn,
-				"DELETE FROM annotation "
+				"DELETE FROM note "
 				"WHERE uid = $1",
 				1,
 				NULL,

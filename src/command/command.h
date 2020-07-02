@@ -22,12 +22,12 @@ typedef struct optionss {
 } options;
 
 void list_entities(PGconn*, options*);
-void create_entity(PGconn*, options*);
+void new_entity(PGconn*, options*);
 void remove_entity(PGconn*, options*);
-void create_alias(PGconn*, options*);
+void new_alias(PGconn*, options*);
 void remove_alias(PGconn*, options*);
-void create_annotation(PGconn*, options*);
-void update_annotation(PGconn*, options*);
-void remove_annotation(PGconn*, options*);
+void new_note(PGconn*, options*);
+void edit_note(PGconn*, options*);
+void remove_note(PGconn*, options*);
 int parse_options(options*, int, char*[]);
 #endif /* ifndef __MEND_COMMAND_H__ */

@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS alias (
 	since TIMESTAMP NOT NULL DEFAULT now()
 );
 
-CREATE TABLE IF NOT EXISTS annotation (
+CREATE TABLE IF NOT EXISTS note (
 	uid UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 	entity UUID NOT NULL REFERENCES entity(uid) ON DELETE CASCADE,
 	value TEXT NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS annotation (
 );
 
 CREATE TRIGGER set_timestamp
-BEFORE UPDATE ON annotation
+BEFORE UPDATE ON note
 FOR EACH ROW
 	EXECUTE PROCEDURE trigger_update();
 
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS relation (
 	uid UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 	entity_a UUID NOT NULL REFERENCES entity(uid) ON DELETE CASCADE,
 	entity_b UUID NOT NULL REFERENCES entity(uid) ON DELETE CASCADE,
-	annotation TEXT,
+	note TEXT,
 	created TIMESTAMP NOT NULL DEFAULT now(),
 	updated TIMESTAMP NOT NULL DEFAULT now()
 );

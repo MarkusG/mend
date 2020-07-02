@@ -3,8 +3,8 @@
 #include "command.h"
 #include "../utils.h"
 
-// TODO open the user's editor to create the annotation
-void create_annotation(PGconn *conn, options *options) {
+// TODO open the user's editor to create the note
+void new_note(PGconn *conn, options *options) {
 	const char *id = options->identifiers[1];
 	if (!id) {
 		fprintf(stderr, ERR "no identifier specified\n");
@@ -56,7 +56,7 @@ void create_annotation(PGconn *conn, options *options) {
 	};
 
 	PGresult *result = PQexecParams(conn,
-			"INSERT INTO annotation (entity, value)"
+			"INSERT INTO note (entity, value)"
 			"VALUES ($1, $2) "
 			"RETURNING uid",
 			2,

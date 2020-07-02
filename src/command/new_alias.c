@@ -3,7 +3,7 @@
 #include "command.h"
 #include "../utils.h"
 
-void create_alias(PGconn *conn, options *options) {
+void new_alias(PGconn *conn, options *options) {
 	const char *id = options->identifiers[1];
 	if (!id) {
 		fprintf(stderr, ERR "no identifier specified\n");
