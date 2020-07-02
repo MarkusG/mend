@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include "command/command.h"
+#include "options.h"
 
 int main(int argc, char *argv[])
 {

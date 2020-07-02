@@ -2,6 +2,8 @@
 #define __MEND_COMMAND_H__
 #include <libpq-fe.h>
 
+#include "../options.h"
+
 typedef enum command {
 	LIST_ENTITIES,
 	CREATE_ENTITY,
@@ -16,11 +18,6 @@ typedef enum command {
 	DELETE_RELATION
 } command;
 
-typedef struct options {
-	command command;
-	char **identifiers;
-} options;
-
 void list_entities(PGconn*, options*);
 void new_entity(PGconn*, options*);
 void remove_entity(PGconn*, options*);
@@ -32,5 +29,4 @@ void remove_note(PGconn*, options*);
 void new_relation(PGconn*, options*);
 void edit_relation(PGconn*, options*);
 void remove_relation(PGconn*, options*);
-int parse_options(options*, int, char*[]);
 #endif /* ifndef __MEND_COMMAND_H__ */

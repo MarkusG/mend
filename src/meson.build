@@ -1,7 +1,7 @@
 sources += [
   files('main.c'),
   files('utils.c'),
-  files('command/parse.c'),
+  files('parse.c'),
   files('command/list_entities.c'),
   files('command/new_entity.c'),
   files('command/remove_entity.c'),
