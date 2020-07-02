@@ -16,7 +16,7 @@ typedef enum command {
 	DELETE_RELATION
 } command;
 
-typedef struct optionss {
+typedef struct options {
 	command command;
 	char **identifiers;
 } options;
