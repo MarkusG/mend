@@ -24,6 +24,7 @@ typedef struct optionss {
 void list_entities(PGconn*, options*);
 void create_entity(PGconn*, options*);
 void remove_entity(PGconn*, options*);
+void create_alias(PGconn*, options*);
 void remove_alias(PGconn*, options*);
 int parse_options(options*, int, char*[]);
 #endif /* ifndef __MEND_COMMAND_H__ */

@@ -5,5 +5,6 @@ sources += [
   files('command/list_entities.c'),
   files('command/create_entity.c'),
   files('command/remove_entity.c'),
+  files('command/create_alias.c'),
   files('command/remove_alias.c')
 ]
