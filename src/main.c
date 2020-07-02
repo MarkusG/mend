@@ -25,6 +25,12 @@ int main(int argc, char *argv[])
 		create_alias(conn, &opts);
 	else if (strcmp(cmd, "ra") == 0 || strcmp(cmd, "remove-alias") == 0)
 		remove_alias(conn, &opts);
+	else if (strcmp(cmd, "can") == 0 || strcmp(cmd, "create-annotation") == 0)
+		create_annotation(conn, &opts);
+	else if (strcmp(cmd, "uan") == 0 || strcmp(cmd, "update-annotation") == 0)
+		update_annotation(conn, &opts);
+	else if (strcmp(cmd, "ran") == 0 || strcmp(cmd, "remove-annotation") == 0)
+		remove_annotation(conn, &opts);
 
 	PQfinish(conn);
 	free(opts.identifiers);
