@@ -9,5 +9,8 @@ sources += [
   files('command/remove_alias.c'),
   files('command/new_note.c'),
   files('command/edit_note.c'),
-  files('command/remove_note.c')
+  files('command/remove_note.c'),
+  files('command/new_relation.c'),
+  files('command/edit_relation.c'),
+  files('command/remove_relation.c')
 ]

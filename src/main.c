@@ -31,6 +31,12 @@ int main(int argc, char *argv[])
 		edit_note(conn, &opts);
 	else if (strcmp(cmd, "ran") == 0 || strcmp(cmd, "rm-note") == 0)
 		remove_note(conn, &opts);
+	else if (strcmp(cmd, "nr") == 0 || strcmp(cmd, "new-relation") == 0)
+		new_relation(conn, &opts);
+	else if (strcmp(cmd, "er") == 0 || strcmp(cmd, "edit-relation") == 0)
+		edit_relation(conn, &opts);
+	else if (strcmp(cmd, "rr") == 0 || strcmp(cmd, "rm-relation") == 0)
+		remove_relation(conn, &opts);
 
 	PQfinish(conn);
 	free(opts.identifiers);

@@ -29,5 +29,8 @@ void remove_alias(PGconn*, options*);
 void new_note(PGconn*, options*);
 void edit_note(PGconn*, options*);
 void remove_note(PGconn*, options*);
+void new_relation(PGconn*, options*);
+void edit_relation(PGconn*, options*);
+void remove_relation(PGconn*, options*);
 int parse_options(options*, int, char*[]);
 #endif /* ifndef __MEND_COMMAND_H__ */
