@@ -17,13 +17,13 @@ int main(int argc, char *argv[])
 	char *cmd = opts.identifiers[0];
 	if (strcmp(cmd, "le") == 0 || strcmp(cmd, "list-entities") == 0)
 		list_entities(conn, &opts);
-	if (strcmp(cmd, "ce") == 0 || strcmp(cmd, "create-entity") == 0)
+	else if (strcmp(cmd, "ce") == 0 || strcmp(cmd, "create-entity") == 0)
 		create_entity(conn, &opts);
-	if (strcmp(cmd, "re") == 0 || strcmp(cmd, "remove-entity") == 0)
+	else if (strcmp(cmd, "re") == 0 || strcmp(cmd, "remove-entity") == 0)
 		remove_entity(conn, &opts);
-	if (strcmp(cmd, "ca") == 0 || strcmp(cmd, "create-alias") == 0)
+	else if (strcmp(cmd, "ca") == 0 || strcmp(cmd, "create-alias") == 0)
 		create_alias(conn, &opts);
-	if (strcmp(cmd, "ra") == 0 || strcmp(cmd, "remove-alias") == 0)
+	else if (strcmp(cmd, "ra") == 0 || strcmp(cmd, "remove-alias") == 0)
 		remove_alias(conn, &opts);
 
 	PQfinish(conn);
