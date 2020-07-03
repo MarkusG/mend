@@ -1,0 +1,30 @@
+.TH MEND 1 2020-07-02 "mend @MEND_VERSION@" "User Commands"
+
+.SH NAME
+mend \- frontend to the mend database
+
+.SH SYNPOSIS
+.B mend
+[options]
+<command>
+[identifiers...]
+
+.SH DESCRIPTION
+.B mend
+is a command line frontend to the mend database. It allows for basic operations on mend entities, aliases, notes, and relations from the command line.
+
+.SH OPTIONS
+.PP
+.PD 0
+.TP 10
+.B \-h, --help
+Show this man page
+.PD
+
+.SH EXIT STATUS
+.PP
+.B mend
+returns a 0 exit status on success and nonzero exit status otherwise.
+
+.SH SEE ALSO
+\fImenddb\fP(3)

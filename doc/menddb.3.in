@@ -1,0 +1,24 @@
+.TH MENDDB 3 2020-07-02 "menddb @MEND_DB_VERSION@" "Library Functions"
+
+.SH NAME
+menddb - the mend database
+
+.SH DESCRIPTION
+The mend database is a PostgreSQL database intended for flexible notetaking. It allows the user to take notes with little predefined structure and relate those notes together.
+
+.SH TABLES
+.PP
+An \fIentity\fP is the most basic object in the mend database. It consists of only a primary key (UUID) and a timestamp representing when it was created. Entities contain little information on their own, and rely on \fIaliases\fP and \fInotes\fP to store meaningful information.
+.PP
+An \fIalias\fP is a meaningful way to refer to an entity, such as "ISO 3166." An alias consists of a primary key (UUID), the primary key of the entity to which it refers, the alias's contents, a precedence value, and a timestamp. The aliases precedence value is used to determine which alias is an entity's \fIprimary alias\fP.
+.PP
+A \fInote\fP contains additional information about an entity, such as "The ISO standard for country codes." A note consists of a primary key (UUID), the primary key of the entity it references, the note's content, a created timestamp, and an updated timestamp.
+.PP
+A \fIrelation\fP relates two entities. For instance, an entity representing "Microsoft Windows" could reference an entity representing "Operating System," as those two things are conceptually related.
+
+.SH VIEWS
+.PP
+The \fIprimary_alias\fP view pairs entities with their alias with the lowest precedence. As entities can have multiple aliases, the \fIprimary_alias\fP view serves to assign an entity a single primary alias.
+
+.SH SEE ALSO
+\fIhttps://github.com/MarkusG/mend/blob/master/sql/tables.sql\fP
