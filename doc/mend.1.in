@@ -17,8 +17,8 @@ is a command line frontend to the mend database. It allows for basic operations 
 .PP
 .PD 0
 .TP 10
-.B \-h, --help
-Show this man page
+.B \-h
+Show this manual page
 .PD
 
 .SH EXIT STATUS
