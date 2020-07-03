@@ -10,10 +10,9 @@ int parse_options(options *options, int argc, char *argv[]) {
 	while ((option = getopt(argc, argv, ":h")) != -1) {
 		switch (option) {
 			case 'h':
-				// TODO actual help command this is just a placeholder
-				fprintf(stderr, "help\n");
-				/* exit(0); */
-				break;
+				fprintf(stderr, "opening manpage\n");
+				system("man mend");
+				exit(0);
 			case '?':
 				fprintf(stderr, "Unknown option: %c\n", optopt);
 				break;
