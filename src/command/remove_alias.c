@@ -46,7 +46,7 @@ void remove_alias(PGconn *conn, options *options) {
 		}
 
 		if (PQntuples(result) == 0) {
-			fprintf(stderr, WARN "no alias with identifier '%s'\n", id);
+			fprintf(stderr, WARN "no alias %s\n", id);
 			++i;
 			continue;
 		}

@@ -42,7 +42,7 @@ void new_note(PGconn *conn, options *options) {
 		}
 
 		if (PQntuples(entity_result) == 0) {
-			fprintf(stderr, ERR "entity '%s' not found\n", id);
+			fprintf(stderr, ERR "entity %s not found\n", id);
 			exit(1);
 		}
 

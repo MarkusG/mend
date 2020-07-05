@@ -13,7 +13,7 @@ void remove_entity(PGconn *conn, options *options) {
 	const char *id;
 	while ((id = options->identifiers[i])) {
 		if (!is_uuid(id)) {
-			fprintf(stderr, WARN "identifier '%s' is not a UUID\n", id);
+			fprintf(stderr, WARN "\"%s\" is not a UUID\n", id);
 			++i;
 			continue;
 		}

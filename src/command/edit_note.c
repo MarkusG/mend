@@ -11,7 +11,7 @@ void edit_note(PGconn *conn, options *options) {
 		fprintf(stderr, ERR "no identifier specified\n");
 		exit(1);
 	} else if (!is_uuid(id)) {
-		fprintf(stderr, ERR "identifier '%s' is not a UUID\n", id);
+		fprintf(stderr, ERR "argument must be a UUID\n");
 		exit(1);
 	}
 

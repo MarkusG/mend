@@ -13,7 +13,7 @@ void remove_relation(PGconn *conn, options *options) {
 	const char *id;
 	while ((id = options->identifiers[i])) {
 		if (!is_uuid(id)) {
-			fprintf(stderr, ERR "'%s' is not a UUID\n", id);
+			fprintf(stderr, ERR "\"%s\" is not a UUID\n", id);
 			++i;
 			continue;
 		}
