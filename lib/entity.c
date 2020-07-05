@@ -1,7 +1,22 @@
+#include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include <arpa/inet.h>
 
 #include "_mend.h"
 #include "../include/mend.h"
+
+const char *mend_entity_uid(mend_entity *entity) {
+	return entity->uid;
+}
+
+const char *mend_entity_name(mend_entity *entity) {
+	return entity->name;
+}
+
+time_t mend_entity_created(mend_entity *entity) {
+	return entity->created;
+}
 
 int mend_uid_from_name(
 		const char *name,
@@ -34,31 +49,33 @@ int mend_uid_from_name(
 	return 0;
 }
 
-int mend_new_entity(
-		const char *name,
-		const char **uid) {
+mend_entity *mend_new_entity(
+		const char *name) {
+	// TODO handle UUIDs as UUIDS and not strings
 	PGresult *result = PQexecParams(_conn,
 			"INSERT INTO entity (name) "
 			"VALUES ($1) "
-			"RETURNING uid",
+			"RETURNING uid::TEXT, name, EXTRACT(EPOCH FROM created)::INTEGER",
 			1,
 			NULL,
 			&name,
 			NULL,
 			NULL,
-			0);
+			1);
 
 	if (PQresultStatus(result) != PGRES_TUPLES_OK) {
 		_set_error("libpq: %s", PQresultErrorMessage(result));
 		PQclear(result);
-		return 1;
+		return NULL;
 	}
 
-	if (uid)
-		*uid = strdup(PQgetvalue(result, 0, 0));
+	mend_entity *value = malloc(sizeof(mend_entity));
+	value->uid = strdup(PQgetvalue(result, 0, 0));
+	value->name = strdup(PQgetvalue(result, 0, 1));
+	value->created = ntohl(*((long int*)PQgetvalue(result, 0, 2)));
 
 	PQclear(result);
-	return 0;
+	return value;
 }
 
 int mend_remove_entity(

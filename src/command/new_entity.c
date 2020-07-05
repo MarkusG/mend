@@ -1,4 +1,6 @@
 #include <stdlib.h>
+#include <time.h>
+#include <arpa/inet.h>
 
 #include "command.h"
 #include "../utils.h"
@@ -11,12 +13,16 @@ int new_entity(options *options) {
 		return 1;
 	}
 
-	const char *uid;
-	if (mend_new_entity(name, &uid)) {
+	mend_entity *entity = mend_new_entity(name);
+	if (!entity) {
 		fprintf(stderr, ERR "%s\n", mend_error());
 		return 1;
 	}
 
-	printf("%s\n", uid);
+	time_t created = mend_entity_created(entity);
+	printf("%s %s %s",
+			mend_entity_uid(entity),
+			mend_entity_name(entity),
+			asctime(gmtime(&created)));
 	return 0;
 }
