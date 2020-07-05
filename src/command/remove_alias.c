@@ -2,8 +2,9 @@
 
 #include "command.h"
 #include "../utils.h"
+#include "../../include/mend.h"
 
-void remove_alias(PGconn *conn, options *options) {
+int remove_alias(options *options) {
 	if (!options->identifiers[1]) {
 		fprintf(stderr, ERR "no identifier specified\n");
 		exit(1);
@@ -11,47 +12,20 @@ void remove_alias(PGconn *conn, options *options) {
 
 	int i = 1;
 	const char *id;
+	int result = 0;
+	mend_id_kind kind;
 	while ((id = options->identifiers[i])) {
-		const char *query;
-		if (is_uuid(id)) {
-			query =
-				"DELETE FROM alias "
-				"WHERE uid = $1 "
-				"RETURNING entity";
-		} else {
-			query =
-				"DELETE FROM alias "
-				"WHERE value = $1 "
-				"RETURNING entity";
-		}
-
-		PGresult *result = PQexecParams(conn,
-				query,
-				1,
-				NULL,
-				&id,
-				NULL,
-				NULL,
-				0);
-
-		switch (PQresultStatus(result)) {
-			case PGRES_TUPLES_OK:
-				break;
-			default:
-				// unexpected response
-				fprintf(stderr, ERR "%s: %s",
-						PQresStatus(PQresultStatus(result)),
-						PQresultErrorMessage(result));
-				exit(1);
-		}
-
-		if (PQntuples(result) == 0) {
-			fprintf(stderr, WARN "no alias %s\n", id);
-			++i;
-			continue;
+		if (is_uuid(id))
+			kind = MEND_UUID;
+		else
+			kind = MEND_NAME;
+		if (mend_remove_alias(id, kind)) {
+			fprintf(stderr, ERR "%s\n", mend_error());
+			result = 1;
 		}
 
 		++i;
-		PQclear(result);
 	}
+
+	return result;
 }

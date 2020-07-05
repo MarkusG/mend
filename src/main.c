@@ -31,9 +31,9 @@ int main(int argc, char *argv[])
 	else if (strcmp(cmd, "re") == 0 || strcmp(cmd, "rm-entity") == 0)
 		exit_code = remove_entity(&opts);
 	else if (strcmp(cmd, "na") == 0 || strcmp(cmd, "new-alias") == 0)
-		new_alias(conn, &opts);
+		exit_code = new_alias(&opts);
 	else if (strcmp(cmd, "ra") == 0 || strcmp(cmd, "rm-alias") == 0)
-		remove_alias(conn, &opts);
+		exit_code = remove_alias(&opts);
 	else if (strcmp(cmd, "nn") == 0 || strcmp(cmd, "new-note") == 0)
 		new_note(conn, &opts);
 	else if (strcmp(cmd, "en") == 0 || strcmp(cmd, "edit-note") == 0)

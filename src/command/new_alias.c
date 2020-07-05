@@ -2,8 +2,9 @@
 
 #include "command.h"
 #include "../utils.h"
+#include "../../include/mend.h"
 
-void new_alias(PGconn *conn, options *options) {
+int new_alias(options *options) {
 	const char *id = options->identifiers[1];
 	if (!id) {
 		fprintf(stderr, ERR "no identifier specified\n");
@@ -16,66 +17,18 @@ void new_alias(PGconn *conn, options *options) {
 		exit(1);
 	}
 
-	const char *entity = id;
-	if (!is_uuid(id)) {
-		PGresult *entity_result = PQexecParams(conn,
-				"SELECT uid "
-				"FROM entity "
-				"WHERE name = $1",
-				1,
-				NULL,
-				&id,
-				NULL,
-				NULL,
-				0);
+	mend_id_kind kind;
+	if (is_uuid(id))
+		kind = MEND_UUID;
+	else
+		kind = MEND_NAME;
 
-		switch (PQresultStatus(entity_result)) {
-			case PGRES_TUPLES_OK:
-				break;
-			default:
-				// unexpected response
-				fprintf(stderr, ERR "%s: %s",
-						PQresStatus(PQresultStatus(entity_result)),
-						PQresultErrorMessage(entity_result));
-				exit(1);
-		}
-
-		if (PQntuples(entity_result) == 0) {
-			fprintf(stderr, ERR "entity %s not found\n", id);
-			exit(1);
-		}
-
-		entity = PQgetvalue(entity_result, 0, 0);
-		PQclear(entity_result);
+	const char *uid;
+	if (mend_new_alias(id, kind, value, &uid)) {
+		fprintf(stderr, ERR "%s\n", mend_error());
+		return 1;
 	}
 
-	const char *const params[] = {
-		entity,
-		value
-	};
-
-	PGresult *result = PQexecParams(conn,
-			"INSERT INTO alias (entity, value)"
-			"VALUES ($1, $2) "
-			"RETURNING uid",
-			2,
-			NULL,
-			params,
-			NULL,
-			NULL,
-			0);
-
-	switch (PQresultStatus(result)) {
-		case PGRES_TUPLES_OK:
-			break;
-		default:
-			// unexpected response
-			fprintf(stderr, ERR "%s: %s",
-					PQresStatus(PQresultStatus(result)),
-					PQresultErrorMessage(result));
-			exit(1);
-	}
-
-	printf("%s\n", PQgetvalue(result, 0, 0));
-	PQclear(result);
+	printf("%s\n", uid);
+	return 0;
 }

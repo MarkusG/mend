@@ -1,5 +1,6 @@
 sources = [
   files('mend.c'),
+  files('alias.c'),
   files('entity.c')
 ]
 

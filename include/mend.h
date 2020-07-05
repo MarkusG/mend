@@ -11,4 +11,6 @@ int mend_cleanup();
 int mend_new_entity(const char*, const char**);
 int mend_remove_entity(const char*, mend_id_kind);
 int mend_uid_from_name(const char*, const char**);
+int mend_new_alias(const char*, mend_id_kind, const char*, const char**);
+int mend_remove_alias(const char*, mend_id_kind);
 #endif /* ifndef __MEND_H__ */
