@@ -10,6 +10,7 @@ $$ LANGUAGE plpgsql;
 
 CREATE TABLE IF NOT EXISTS entity (
 	uid UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+	name TEXT NOT NULL,
 	created TIMESTAMP NOT NULL DEFAULT now()
 );
 
@@ -17,7 +18,6 @@ CREATE TABLE IF NOT EXISTS alias (
 	uid UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 	entity UUID NOT NULL REFERENCES entity(uid) ON DELETE CASCADE,
 	value TEXT NOT NULL,
-	precedence INTEGER,
 	since TIMESTAMP NOT NULL DEFAULT now()
 );
 
@@ -47,11 +47,3 @@ CREATE TRIGGER set_timestamp
 BEFORE UPDATE ON relation
 FOR EACH ROW
 	EXECUTE PROCEDURE trigger_update();
-
-CREATE VIEW primary_alias AS
-SELECT DISTINCT ON (entity) entity, value AS alias
-FROM
-(
-	SELECT * FROM alias
-	ORDER BY precedence
-) AS tbl;

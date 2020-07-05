@@ -19,9 +19,9 @@ void new_alias(PGconn *conn, options *options) {
 	const char *entity = id;
 	if (!is_uuid(id)) {
 		PGresult *entity_result = PQexecParams(conn,
-				"SELECT entity "
-				"FROM primary_alias "
-				"WHERE alias = $1",
+				"SELECT uid "
+				"FROM entity "
+				"WHERE name = $1",
 				1,
 				NULL,
 				&id,
@@ -41,7 +41,7 @@ void new_alias(PGconn *conn, options *options) {
 		}
 
 		if (PQntuples(entity_result) == 0) {
-			fprintf(stderr, ERR "entity with primary alias %s not found\n", id);
+			fprintf(stderr, ERR "entity '%s' not found\n", id);
 			exit(1);
 		}
 

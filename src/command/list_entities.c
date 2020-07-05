@@ -9,11 +9,11 @@ void list_entities(PGconn *conn, options *options) {
 		const char *id;
 		while ((id = options->identifiers[i])) {
 			PGresult *result = PQexecParams(conn,
-					"SELECT * "
-					"FROM primary_alias "
-					"WHERE entity::TEXT = $1 "
-					"OR alias = $1 "
-					"ORDER BY alias",
+					"SELECT uid, name "
+					"FROM entity "
+					"WHERE uid::TEXT = $1 "
+					"OR name = $1 "
+					"ORDER BY name",
 					1,
 					NULL,
 					&id,
@@ -44,9 +44,9 @@ void list_entities(PGconn *conn, options *options) {
 		}
 	} else {
 		PGresult *result = PQexecParams(conn,
-				"SELECT * "
-				"FROM primary_alias "
-				"ORDER BY alias",
+				"SELECT uid, name "
+				"FROM entity "
+				"ORDER BY name",
 				0,
 				NULL,
 				NULL,

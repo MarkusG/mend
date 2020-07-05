@@ -19,13 +19,13 @@ void new_relation(PGconn *conn, options *options) {
 	const char *note = options->identifiers[3];
 	const char *entity[2] = { id_a, id_b };
 
-	for (int i = 1; i < 3; ++i) {
-		const char *id = options->identifiers[i];
+	for (int i = 0; i < 2; ++i) {
+		const char *id = entity[i];
 		if (!is_uuid(id)) {
 			PGresult *entity_result = PQexecParams(conn,
-					"SELECT entity "
-					"FROM primary_alias "
-					"WHERE alias = $1",
+					"SELECT uid "
+					"FROM entity "
+					"WHERE name = $1",
 					1,
 					NULL,
 					&id,
@@ -45,7 +45,7 @@ void new_relation(PGconn *conn, options *options) {
 			}
 
 			if (PQntuples(entity_result) == 0) {
-				fprintf(stderr, ERR "entity with primary alias %s not found\n", id);
+				fprintf(stderr, ERR "entity with name '%s' not found\n", id);
 				exit(1);
 			}
 

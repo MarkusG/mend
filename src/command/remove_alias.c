@@ -51,33 +51,7 @@ void remove_alias(PGconn *conn, options *options) {
 			continue;
 		}
 
-		const char *entity = PQgetvalue(result, 0, 0);
-		PGresult *check_result = PQexecParams(conn,
-				"SELECT * FROM primary_alias"
-				"WHERE entity = $1",
-				1,
-				NULL,
-				&entity,
-				NULL,
-				NULL,
-				0);
-
-		switch (PQresultStatus(result)) {
-			case PGRES_TUPLES_OK:
-				break;
-			default:
-				// unexpected response
-				fprintf(stderr, ERR "%s: %s",
-						PQresStatus(PQresultStatus(result)),
-						PQresultErrorMessage(result));
-				exit(1);
-		}
-
-		if (PQntuples(check_result) == 0)
-			fprintf(stderr, WARN "entity %s no longer has any aliases\n", entity);
-
 		++i;
 		PQclear(result);
-		PQclear(check_result);
 	}
 }

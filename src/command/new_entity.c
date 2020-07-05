@@ -4,13 +4,19 @@
 #include "../utils.h"
 
 void new_entity(PGconn *conn, options *options) {
+	const char *name = options->identifiers[1];
+	if (!name) {
+		fprintf(stderr, ERR "no name specified\n");
+		exit(1);
+	}
+
 	PGresult *result = PQexecParams(conn,
-			"INSERT INTO entity "
-			"DEFAULT VALUES "
+			"INSERT INTO entity (name) "
+			"VALUES ($1) "
 			"RETURNING uid",
-			0,
+			1,
 			NULL,
-			NULL,
+			&name,
 			NULL,
 			NULL,
 			0);
@@ -26,32 +32,6 @@ void new_entity(PGconn *conn, options *options) {
 			exit(1);
 	}
 
-	char *uid = PQgetvalue(result, 0, 0);
-	if (options->identifiers[1]) {
-		const char *const params[] = { uid, options->identifiers[1] };
-		PGresult *alias_result = PQexecParams(conn,
-				"INSERT INTO alias (entity, value) "
-				"VALUES ($1, $2)",
-				2,
-				NULL,
-				params,
-				NULL,
-				NULL,
-				0);
-
-		switch (PQresultStatus(alias_result)) {
-			case PGRES_COMMAND_OK:
-				break;
-			default:
-				// unexpected response
-				fprintf(stderr, ERR "%s: %s",
-						PQresStatus(PQresultStatus(alias_result)),
-						PQresultErrorMessage(alias_result));
-				exit(1);
-		}
-		PQclear(alias_result);
-	}
-
-	printf("%s\n", uid);
+	printf("%s\n", PQgetvalue(result, 0, 0));
 	PQclear(result);
 }

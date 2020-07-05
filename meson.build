@@ -17,7 +17,7 @@ version_conf.set(
 
 version_conf.set(
   'MEND_DB_VERSION',
-  '0.1.0'
+  '0.2.0'
 )
 
 deps = [
