@@ -24,5 +24,6 @@ int new_entity(options *options) {
 			mend_entity_uid(entity),
 			mend_entity_name(entity),
 			asctime(gmtime(&created)));
+	mend_free_entity(entity);
 	return 0;
 }

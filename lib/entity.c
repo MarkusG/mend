@@ -78,6 +78,13 @@ mend_entity *mend_new_entity(
 	return value;
 }
 
+void mend_free_entity(
+		mend_entity *entity) {
+	free((void*)entity->uid);
+	free((void*)entity->name);
+	free((void*)entity);
+}
+
 int mend_remove_entity(
 		const char *id,
 		mend_id_kind kind) {
