@@ -26,11 +26,11 @@ int main(int argc, char *argv[])
 		new_alias(conn, &opts);
 	else if (strcmp(cmd, "ra") == 0 || strcmp(cmd, "rm-alias") == 0)
 		remove_alias(conn, &opts);
-	else if (strcmp(cmd, "nan") == 0 || strcmp(cmd, "new-note") == 0)
+	else if (strcmp(cmd, "nn") == 0 || strcmp(cmd, "new-note") == 0)
 		new_note(conn, &opts);
-	else if (strcmp(cmd, "ean") == 0 || strcmp(cmd, "edit-note") == 0)
+	else if (strcmp(cmd, "en") == 0 || strcmp(cmd, "edit-note") == 0)
 		edit_note(conn, &opts);
-	else if (strcmp(cmd, "ran") == 0 || strcmp(cmd, "rm-note") == 0)
+	else if (strcmp(cmd, "rn") == 0 || strcmp(cmd, "rm-note") == 0)
 		remove_note(conn, &opts);
 	else if (strcmp(cmd, "nr") == 0 || strcmp(cmd, "new-relation") == 0)
 		new_relation(conn, &opts);
