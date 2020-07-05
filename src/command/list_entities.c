@@ -8,20 +8,12 @@ void list_entities(PGconn *conn, options *options) {
 		int i = 1;
 		const char *id;
 		while ((id = options->identifiers[i])) {
-			const char *query;
-			if (is_uuid(id)) {
-				query = 
-					"SELECT * "
-					"FROM primary_alias "
-					"WHERE entity = $1";
-			} else {
-				query = 
-					"SELECT * "
-					"FROM primary_alias "
-					"WHERE alias = $1";
-			}
 			PGresult *result = PQexecParams(conn,
-					query,
+					"SELECT * "
+					"FROM primary_alias "
+					"WHERE entity::TEXT = $1 "
+					"OR alias = $1 "
+					"ORDER BY alias",
 					1,
 					NULL,
 					&id,
@@ -53,7 +45,8 @@ void list_entities(PGconn *conn, options *options) {
 	} else {
 		PGresult *result = PQexecParams(conn,
 				"SELECT * "
-				"FROM primary_alias",
+				"FROM primary_alias "
+				"ORDER BY alias",
 				0,
 				NULL,
 				NULL,
