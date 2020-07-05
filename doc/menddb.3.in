@@ -1,4 +1,4 @@
-.TH MENDDB 3 2020-07-04 "menddb @MEND_DB_VERSION@" "Library Functions"
+.TH MENDDB 3 2020-07-05 "menddb @MEND_DB_VERSION@" "Library Functions"
 
 .SH NAME
 menddb - the mend database

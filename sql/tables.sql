@@ -10,7 +10,7 @@ $$ LANGUAGE plpgsql;
 
 CREATE TABLE IF NOT EXISTS entity (
 	uid UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-	name TEXT NOT NULL,
+	name TEXT NOT NULL UNIQUE,
 	created TIMESTAMP NOT NULL DEFAULT now()
 );
 
