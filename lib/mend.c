@@ -19,7 +19,7 @@ const char *mend_error() {
 }
 
 int mend_init(const char *connection_string) {
-	_error = malloc(128 * sizeof(char));
+	_error = malloc(256 * sizeof(char));
 	_conn = PQconnectdb(connection_string);
 	_set_error("could not connect to database");
 	return PQstatus(_conn) != CONNECTION_OK;
