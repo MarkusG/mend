@@ -39,6 +39,7 @@ int mend_new_alias(
 
 	if (PQresultStatus(result) != PGRES_TUPLES_OK) {
 		_set_error("libpq: %s", PQresultErrorMessage(result));
+		PQclear(result);
 		return 1;
 	}
 

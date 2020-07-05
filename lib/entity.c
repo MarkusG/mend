@@ -19,11 +19,13 @@ int mend_uid_from_name(
 
 	if (PQresultStatus(result) != PGRES_TUPLES_OK) {
 		_set_error("libpq: %s", PQresultErrorMessage(result));
+		PQclear(result);
 		return 1;
 	}
 
 	if (PQntuples(result) == 0) {
 		_set_error("mend_uid_from_name: no entity found");
+		PQclear(result);
 		return 1;
 	}
 
@@ -48,6 +50,7 @@ int mend_new_entity(
 
 	if (PQresultStatus(result) != PGRES_TUPLES_OK) {
 		_set_error("libpq: %s", PQresultErrorMessage(result));
+		PQclear(result);
 		return 1;
 	}
 
@@ -88,11 +91,13 @@ int mend_remove_entity(
 
 	if (PQresultStatus(result) != PGRES_TUPLES_OK) {
 		_set_error("libpq: %s", PQresultErrorMessage(result));
+		PQclear(result);
 		return 1;
 	}
 
 	if (PQntuples(result) == 0) {
 		_set_error("no such entity %s", id);
+		PQclear(result);
 		return 2;
 	}
 
