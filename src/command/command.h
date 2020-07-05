@@ -19,8 +19,8 @@ typedef enum command {
 } command;
 
 void list_entities(PGconn*, options*);
-void new_entity(PGconn*, options*);
-void remove_entity(PGconn*, options*);
+int new_entity(options*);
+int remove_entity(options*);
 void new_alias(PGconn*, options*);
 void remove_alias(PGconn*, options*);
 void new_note(PGconn*, options*);

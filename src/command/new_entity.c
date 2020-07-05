@@ -2,36 +2,21 @@
 
 #include "command.h"
 #include "../utils.h"
+#include "../../include/mend.h"
 
-void new_entity(PGconn *conn, options *options) {
+int new_entity(options *options) {
 	const char *name = options->identifiers[1];
 	if (!name) {
 		fprintf(stderr, ERR "no name specified\n");
-		exit(1);
+		return 1;
 	}
 
-	PGresult *result = PQexecParams(conn,
-			"INSERT INTO entity (name) "
-			"VALUES ($1) "
-			"RETURNING uid",
-			1,
-			NULL,
-			&name,
-			NULL,
-			NULL,
-			0);
-
-	switch (PQresultStatus(result)) {
-		case PGRES_TUPLES_OK:
-			break;
-		default:
-			// unexpected response
-			fprintf(stderr, ERR "%s: %s",
-					PQresStatus(PQresultStatus(result)),
-					PQresultErrorMessage(result));
-			exit(1);
+	const char *uid;
+	if (mend_new_entity(name, &uid)) {
+		fprintf(stderr, ERR "%s\n", mend_error());
+		return 1;
 	}
 
-	printf("%s\n", PQgetvalue(result, 0, 0));
-	PQclear(result);
+	printf("%s\n", uid);
+	return 0;
 }

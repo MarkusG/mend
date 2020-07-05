@@ -17,7 +17,7 @@ version_conf.set(
 
 version_conf.set(
   'MEND_DB_VERSION',
-  '0.3.0'
+  '0.4.0'
 )
 
 deps = [
@@ -27,11 +27,13 @@ deps = [
 sources = []
 headers = []
 
+subdir('lib')
 subdir('src')
 subdir('doc')
 
 exe = executable(meson.project_name(),
   sources + headers,
   dependencies: deps,
+  link_with: lib,
   install: true
 )

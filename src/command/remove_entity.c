@@ -2,8 +2,9 @@
 
 #include "command.h"
 #include "../utils.h"
+#include "../../include/mend.h"
 
-void remove_entity(PGconn *conn, options *options) {
+int remove_entity(options *options) {
 	if (!options->identifiers[1]) {
 		fprintf(stderr, ERR "no identifier specified\n");
 		exit(1);
@@ -11,34 +12,19 @@ void remove_entity(PGconn *conn, options *options) {
 
 	int i = 1;
 	const char *id;
+	int result = 0;
+	mend_id_kind kind;
 	while ((id = options->identifiers[i])) {
-		if (!is_uuid(id)) {
-			fprintf(stderr, WARN "\"%s\" is not a UUID\n", id);
-			++i;
-			continue;
-		}
-
-		PGresult *result = PQexecParams(conn,
-				"DELETE FROM entity "
-				"WHERE uid = $1",
-				1,
-				NULL,
-				&id,
-				NULL,
-				NULL,
-				0);
-
-		switch (PQresultStatus(result)) {
-			case PGRES_COMMAND_OK:
-				break;
-			default:
-				// unexpected response
-				fprintf(stderr, ERR "%s: %s",
-						PQresStatus(PQresultStatus(result)),
-						PQresultErrorMessage(result));
-				exit(1);
+		if (is_uuid(id))
+			kind = MEND_UUID;
+		else
+			kind = MEND_NAME;
+		if (mend_remove_entity(id, kind)) {
+			fprintf(stderr, ERR "%s\n", mend_error());
+			result = 1;
 		}
 		++i;
-		PQclear(result);
 	}
+
+	return result;
 }
