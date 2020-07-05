@@ -3,7 +3,9 @@
 #include "_mend.h"
 #include "../include/mend.h"
 
-int mend_uid_from_name(const char *name, const char **uid) {
+int mend_uid_from_name(
+		const char *name,
+		const char **uid) {
 	PGresult *result = PQexecParams(_conn,
 				"SELECT uid "
 				"FROM entity "
@@ -30,7 +32,9 @@ int mend_uid_from_name(const char *name, const char **uid) {
 	return 0;
 }
 
-int mend_new_entity(const char *name, const char **uid) {
+int mend_new_entity(
+		const char *name,
+		const char **uid) {
 	PGresult *result = PQexecParams(_conn,
 			"INSERT INTO entity (name) "
 			"VALUES ($1) "
@@ -54,7 +58,9 @@ int mend_new_entity(const char *name, const char **uid) {
 	return 0;
 }
 
-int mend_remove_entity(const char *id, mend_id_kind kind) {
+int mend_remove_entity(
+		const char *id,
+		mend_id_kind kind) {
 	const char *query;
 	switch (kind) {
 		case MEND_UUID:
