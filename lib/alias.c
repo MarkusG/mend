@@ -1,14 +1,31 @@
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include <arpa/inet.h>
 
 #include "_mend.h"
 #include "../include/mend.h"
 
-int mend_new_alias(
+const char *mend_alias_uid(const mend_alias *alias) {
+	return alias->uid;
+}
+
+const char *mend_alias_name(const mend_alias *alias) {
+	return alias->name;
+}
+
+const char *mend_alias_entity_uid(const mend_alias *alias) {
+	return alias->entity_uid;
+}
+
+time_t mend_alias_since(const mend_alias *alias) {
+	return alias->since;
+}
+
+mend_alias *mend_new_alias(
 		const char *id,
 		mend_id_kind kind,
-		const char *name,
-		const char **uid) {
+		const char *name) {
 	const char *identifier;
 	int id_converted = 0;
 	switch (kind) {
@@ -29,7 +46,7 @@ int mend_new_alias(
 	PGresult *result = PQexecParams(_conn,
 			"INSERT INTO alias (entity, value) "
 			"VALUES ($1, $2) "
-			"RETURNING uid",
+			"RETURNING uid::TEXT, entity::TEXT, value, EXTRACT(EPOCH FROM since)::INTEGER",
 			2,
 			NULL,
 			params,
@@ -40,14 +57,25 @@ int mend_new_alias(
 	if (PQresultStatus(result) != PGRES_TUPLES_OK) {
 		_set_error("libpq: %s", PQresultErrorMessage(result));
 		PQclear(result);
-		return 1;
+		return NULL;
 	}
 
-	*uid = strdup(PQgetvalue(result, 0, 0));
+	mend_alias *value = malloc(sizeof(mend_alias));
+	value->uid = strdup(PQgetvalue(result, 0, 0));
+	value->entity_uid = strdup(PQgetvalue(result, 0, 1));
+	value->name = strdup(PQgetvalue(result, 0, 2));
+	value->since = ntohl(*((long int*)PQgetvalue(result, 0, 3)));
 	PQclear(result);
 	if (id_converted)
 		free((void*)identifier);
-	return 0;
+	return value;
+}
+
+void mend_free_alias(
+		const mend_alias *alias) {
+	free((void*)alias->uid);
+	free((void*)alias->name);
+	free((void*)alias->entity_uid);
 }
 
 int mend_remove_alias(

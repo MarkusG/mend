@@ -11,4 +11,11 @@ struct mend_entity {
 	const char *name;
 	time_t created;
 };
+
+struct mend_alias {
+	const char *uid;
+	const char *name;
+	const char *entity_uid;
+	time_t since;
+};
 #endif /* ifndef ___MEND_H__ */

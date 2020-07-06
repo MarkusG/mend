@@ -23,12 +23,13 @@ int new_alias(options *options) {
 	else
 		kind = MEND_NAME;
 
-	const char *uid;
-	if (mend_new_alias(id, kind, value, &uid)) {
+	const mend_alias *alias = mend_new_alias(id, kind, value);
+	if (!alias) {
 		fprintf(stderr, ERR "%s\n", mend_error());
 		return 1;
 	}
 
-	printf("%s\n", uid);
+	printf("%s\n", mend_alias_uid(alias));
+	mend_free_alias(alias);
 	return 0;
 }
