@@ -75,7 +75,7 @@ const mend_entity *mend_new_entity(
 	mend_entity *value = malloc(sizeof(mend_entity));
 	value->uid = strdup(PQgetvalue(result, 0, 0));
 	value->name = strdup(PQgetvalue(result, 0, 1));
-	value->created = ntohl(*((long int*)PQgetvalue(result, 0, 2)));
+	value->created = ntohl(*((time_t*)PQgetvalue(result, 0, 2)));
 
 	PQclear(result);
 	return value;
@@ -112,7 +112,7 @@ const mend_entity **mend_get_entities() {
 		ret[i] = malloc(sizeof(mend_entity));
 		ret[i]->uid = strdup(PQgetvalue(result, i, 0));
 		ret[i]->name = strdup(PQgetvalue(result, i, 1));
-		ret[i]->created = ntohl(*((long int*)PQgetvalue(result, i, 2)));
+		ret[i]->created = ntohl(*((time_t*)PQgetvalue(result, i, 2)));
 	}
 	ret[i] = NULL;
 	PQclear(result);
@@ -162,7 +162,7 @@ const mend_entity *mend_get_entity(
 	mend_entity *value = malloc(sizeof(mend_entity));
 	value->uid = strdup(PQgetvalue(result, 0, 0));
 	value->name = strdup(PQgetvalue(result, 0, 1));
-	value->created = ntohl(*((long int*)PQgetvalue(result, 0, 2)));
+	value->created = ntohl(*((time_t*)PQgetvalue(result, 0, 2)));
 
 	PQclear(result);
 	return (const mend_entity*)value;

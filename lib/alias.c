@@ -68,7 +68,7 @@ const mend_alias *mend_new_alias(
 	value->uid = strdup(PQgetvalue(result, 0, 0));
 	value->entity_uid = strdup(PQgetvalue(result, 0, 1));
 	value->value = strdup(PQgetvalue(result, 0, 2));
-	value->since = ntohl(*((long int*)PQgetvalue(result, 0, 3)));
+	value->since = ntohl(*((time_t*)PQgetvalue(result, 0, 3)));
 	PQclear(result);
 	if (id_converted)
 		free((void*)identifier);
@@ -126,7 +126,7 @@ const mend_alias *mend_get_alias(
 	value->uid = strdup(PQgetvalue(result, 0, 0));
 	value->entity_uid = strdup(PQgetvalue(result, 0, 1));
 	value->value = strdup(PQgetvalue(result, 0, 2));
-	value->since = ntohl(*((long int*)PQgetvalue(result, 0, 3)));
+	value->since = ntohl(*((time_t*)PQgetvalue(result, 0, 3)));
 
 	PQclear(result);
 	return (const mend_alias*)value;

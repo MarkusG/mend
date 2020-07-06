@@ -73,8 +73,8 @@ const mend_note *mend_new_note(
 	ret->uid = strdup(PQgetvalue(result, 0, 0));
 	ret->entity_uid = strdup(PQgetvalue(result, 0, 1));
 	ret->value = strdup(PQgetvalue(result, 0, 2));
-	ret->created = ntohl(*((long int*)PQgetvalue(result, 0, 3)));
-	ret->updated = ntohl(*((long int*)PQgetvalue(result, 0, 4)));
+	ret->created = ntohl(*((time_t*)PQgetvalue(result, 0, 3)));
+	ret->updated = ntohl(*((time_t*)PQgetvalue(result, 0, 4)));
 	PQclear(result);
 	if (id_converted)
 		free((void*)identifier);
@@ -120,8 +120,8 @@ const mend_note *mend_get_note(
 	ret->uid = strdup(PQgetvalue(result, 0, 0));
 	ret->entity_uid = strdup(PQgetvalue(result, 0, 1));
 	ret->value = strdup(PQgetvalue(result, 0, 2));
-	ret->created = ntohl(*((long int*)PQgetvalue(result, 0, 3)));
-	ret->updated = ntohl(*((long int*)PQgetvalue(result, 0, 4)));
+	ret->created = ntohl(*((time_t*)PQgetvalue(result, 0, 3)));
+	ret->updated = ntohl(*((time_t*)PQgetvalue(result, 0, 4)));
 	PQclear(result);
 	return (const mend_note*)ret;
 }
@@ -164,8 +164,8 @@ const mend_note *mend_edit_note(
 	ret->uid = strdup(PQgetvalue(result, 0, 0));
 	ret->entity_uid = strdup(PQgetvalue(result, 0, 1));
 	ret->value = strdup(PQgetvalue(result, 0, 2));
-	ret->created = ntohl(*((long int*)PQgetvalue(result, 0, 3)));
-	ret->updated = ntohl(*((long int*)PQgetvalue(result, 0, 4)));
+	ret->created = ntohl(*((time_t*)PQgetvalue(result, 0, 3)));
+	ret->updated = ntohl(*((time_t*)PQgetvalue(result, 0, 4)));
 	PQclear(result);
 	return (const mend_note*)ret;
 }
