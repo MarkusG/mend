@@ -14,7 +14,7 @@ int list_entities(options *options) {
 				kind = MEND_UUID;
 			else
 				kind = MEND_NAME;
-			mend_entity *entity = mend_get_entity(id, kind);
+			const mend_entity *entity = mend_get_entity(id, kind);
 			if (!entity) {
 				fprintf(stderr, ERR "%s\n", mend_error());
 				return 1;
@@ -26,13 +26,13 @@ int list_entities(options *options) {
 			++i;
 		}
 	} else {
-		mend_entity **entities = mend_get_entities();
+		const mend_entity **entities = mend_get_entities();
 		if (!entities) {
 			fprintf(stderr, ERR "%s\n", mend_error());
 			return 1;
 		}
 		int i = 0;
-		mend_entity *entity;
+		const mend_entity *entity;
 		while ((entity = entities[i])) {
 			printf("%s %s\n",
 					mend_entity_uid(entity),

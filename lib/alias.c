@@ -22,7 +22,7 @@ time_t mend_alias_since(const mend_alias *alias) {
 	return alias->since;
 }
 
-mend_alias *mend_new_alias(
+const mend_alias *mend_new_alias(
 		const char *id,
 		mend_id_kind kind,
 		const char *name) {
@@ -68,7 +68,7 @@ mend_alias *mend_new_alias(
 	PQclear(result);
 	if (id_converted)
 		free((void*)identifier);
-	return value;
+	return (const mend_alias*)value;
 }
 
 void mend_free_alias(

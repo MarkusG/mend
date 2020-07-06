@@ -13,7 +13,7 @@ int new_entity(options *options) {
 		return 1;
 	}
 
-	mend_entity *entity = mend_new_entity(name);
+	const mend_entity *entity = mend_new_entity(name);
 	if (!entity) {
 		fprintf(stderr, ERR "%s\n", mend_error());
 		return 1;

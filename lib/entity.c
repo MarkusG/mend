@@ -6,15 +6,15 @@
 #include "_mend.h"
 #include "../include/mend.h"
 
-const char *mend_entity_uid(mend_entity *entity) {
+const char *mend_entity_uid(const mend_entity *entity) {
 	return entity->uid;
 }
 
-const char *mend_entity_name(mend_entity *entity) {
+const char *mend_entity_name(const mend_entity *entity) {
 	return entity->name;
 }
 
-time_t mend_entity_created(mend_entity *entity) {
+time_t mend_entity_created(const mend_entity *entity) {
 	return entity->created;
 }
 
@@ -49,7 +49,7 @@ int mend_uid_from_name(
 	return 0;
 }
 
-mend_entity *mend_new_entity(
+const mend_entity *mend_new_entity(
 		const char *name) {
 	// TODO handle UUIDs as UUIDS and not strings
 	PGresult *result = PQexecParams(_conn,
@@ -79,13 +79,13 @@ mend_entity *mend_new_entity(
 }
 
 void mend_free_entity(
-		mend_entity *entity) {
+		const mend_entity *entity) {
 	free((void*)entity->uid);
 	free((void*)entity->name);
 	free((void*)entity);
 }
 
-mend_entity **mend_get_entities() {
+const mend_entity **mend_get_entities() {
 	PGresult *result = PQexecParams(_conn,
 			"SELECT uid::TEXT, name, EXTRACT(EPOCH FROM created)::INTEGER "
 			"FROM entity "
@@ -113,10 +113,10 @@ mend_entity **mend_get_entities() {
 	}
 	ret[i] = NULL;
 	PQclear(result);
-	return ret;
+	return (const mend_entity**)ret;
 }
 
-mend_entity *mend_get_entity(
+const mend_entity *mend_get_entity(
 		const char *id,
 		mend_id_kind kind) {
 	const char *query;
@@ -162,7 +162,7 @@ mend_entity *mend_get_entity(
 	value->created = ntohl(*((long int*)PQgetvalue(result, 0, 2)));
 
 	PQclear(result);
-	return value;
+	return (const mend_entity*)value;
 }
 
 int mend_remove_entity(
