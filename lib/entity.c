@@ -21,9 +21,8 @@ time_t mend_entity_created(
 	return entity->created;
 }
 
-int mend_uid_from_name(
-		const char *name,
-		const char **uid) {
+const char *mend_uid_from_name(
+		const char *name) {
 	PGresult *result = PQexecParams(_conn,
 				"SELECT uid "
 				"FROM entity "
@@ -38,18 +37,18 @@ int mend_uid_from_name(
 	if (PQresultStatus(result) != PGRES_TUPLES_OK) {
 		_set_error("libpq: %s", PQresultErrorMessage(result));
 		PQclear(result);
-		return 1;
+		return NULL;
 	}
 
 	if (PQntuples(result) == 0) {
 		_set_error("mend_uid_from_name: no entity found");
 		PQclear(result);
-		return 1;
+		return NULL;
 	}
 
-	*uid = strdup(PQgetvalue(result, 0, 0));
+	const char *uid = strdup(PQgetvalue(result, 0, 0));
 	PQclear(result);
-	return 0;
+	return uid;
 }
 
 const mend_entity *mend_new_entity(

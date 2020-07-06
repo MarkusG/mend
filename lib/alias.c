@@ -37,9 +37,14 @@ const mend_alias *mend_new_alias(
 			identifier = id;
 			break;
 		case MEND_NAME:
-			mend_uid_from_name(id, &identifier);
+			identifier = mend_uid_from_name(id);
 			id_converted = 1;
 			break;
+	}
+
+	if (!identifier) {
+		_set_error("no such entity %s", id);
+		return NULL;
 	}
 
 	const char *params[] = {

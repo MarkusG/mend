@@ -23,7 +23,7 @@ const mend_entity **mend_get_entities();
 const mend_entity *mend_get_entity(const char*, mend_id_kind);
 
 int mend_remove_entity(const char*, mend_id_kind);
-int mend_uid_from_name(const char*, const char**);
+const char *mend_uid_from_name(const char*);
 
 typedef struct mend_alias mend_alias;
 const mend_alias *mend_new_alias(const char*, mend_id_kind, const char*);
