@@ -32,4 +32,5 @@ int new_note(options *options) {
 
 	printf("%s\n", mend_note_uid(note));
 	mend_free_note(note);
+	return 0;
 }
