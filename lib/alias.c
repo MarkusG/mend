@@ -56,7 +56,7 @@ const mend_alias *mend_new_alias(
 			params,
 			NULL,
 			NULL,
-			0);
+			1);
 
 	if (PQresultStatus(result) != PGRES_TUPLES_OK) {
 		_set_error("libpq: %s", PQresultErrorMessage(result));
