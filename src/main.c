@@ -37,11 +37,11 @@ int main(int argc, char *argv[])
 	else if (strcmp(cmd, "ra") == 0 || strcmp(cmd, "rm-alias") == 0)
 		exit_code = remove_alias(&opts);
 	else if (strcmp(cmd, "nn") == 0 || strcmp(cmd, "new-note") == 0)
-		new_note(conn, &opts);
+		exit_code = new_note(&opts);
 	else if (strcmp(cmd, "en") == 0 || strcmp(cmd, "edit-note") == 0)
-		edit_note(conn, &opts);
+		exit_code = edit_note(&opts);
 	else if (strcmp(cmd, "rn") == 0 || strcmp(cmd, "rm-note") == 0)
-		remove_note(conn, &opts);
+		exit_code = remove_note(&opts);
 	else if (strcmp(cmd, "nr") == 0 || strcmp(cmd, "new-relation") == 0)
 		new_relation(conn, &opts);
 	else if (strcmp(cmd, "er") == 0 || strcmp(cmd, "edit-relation") == 0)

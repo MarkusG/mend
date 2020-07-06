@@ -3,9 +3,10 @@
 
 #include "command.h"
 #include "../utils.h"
+#include "../../include/mend.h"
 
 // TODO open the user's editor to create the note
-void edit_note(PGconn *conn, options *options) {
+int edit_note(options *options) {
 	const char *id = options->identifiers[1];
 	if (!id) {
 		fprintf(stderr, ERR "no identifier specified\n");
@@ -21,39 +22,13 @@ void edit_note(PGconn *conn, options *options) {
 		exit(1);
 	}
 
-	const char *const params[] = {
-		id,
-		value
-	};
-
-	PGresult *result = PQexecParams(conn,
-			"UPDATE note "
-			"SET value = $2 "
-			"WHERE uid = $1 "
-			"RETURNING uid",
-			2,
-			NULL,
-			params,
-			NULL,
-			NULL,
-			0);
-
-	switch (PQresultStatus(result)) {
-		case PGRES_TUPLES_OK:
-			break;
-		default:
-			// unexpected response
-			fprintf(stderr, ERR "%s: %s",
-					PQresStatus(PQresultStatus(result)),
-					PQresultErrorMessage(result));
-			exit(1);
+	const mend_note *note = mend_edit_note(id, value);
+	if (!note) {
+		fprintf(stderr, ERR "%s\n", mend_error());
+		return 1;
 	}
 
-	// TODO offer to create
-	// will probably implement after extracting common functionality to a library
-	if (PQntuples(result) == 0)
-		fprintf(stderr, ERR "note %s not found\n", id);
-	else
-		printf("%s\n", PQgetvalue(result, 0, 0));
-	PQclear(result);
+	printf("%s\n", mend_note_uid(note));
+	mend_free_note(note);
+	return 0;
 }

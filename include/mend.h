@@ -36,4 +36,18 @@ time_t mend_alias_since(const mend_alias *alias);
 
 const mend_alias *mend_get_alias(const char*, mend_id_kind);
 int mend_remove_alias(const char*, mend_id_kind);
+
+typedef struct mend_note mend_note;
+const mend_note *mend_new_note(const char*, mend_id_kind, const char*);
+void mend_free_note(const mend_note*);
+
+const char *mend_note_uid(const mend_note*);
+const char *mend_note_entity_uid(const mend_note*);
+const char *mend_note_value(const mend_note*);
+time_t mend_note_created(const mend_note*);
+time_t mend_note_updated(const mend_note*);
+
+const mend_note *mend_get_note(const char*);
+const mend_note *mend_edit_note(const char*, const char*);
+int mend_remove_note(const char *uid);
 #endif /* ifndef __MEND_H__ */

@@ -18,4 +18,12 @@ struct mend_alias {
 	const char *value;
 	time_t since;
 };
+
+struct mend_note {
+	const char *uid;
+	const char *entity_uid;
+	const char *value;
+	time_t created;
+	time_t updated;
+};
 #endif /* ifndef ___MEND_H__ */
