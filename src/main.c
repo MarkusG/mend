@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 	char *cmd = opts.identifiers[0];
 	int exit_code;
 	if (strcmp(cmd, "le") == 0 || strcmp(cmd, "list-entities") == 0)
-		list_entities(conn, &opts);
+		exit_code = list_entities(&opts);
 	else if (strcmp(cmd, "ne") == 0 || strcmp(cmd, "new-entity") == 0)
 		exit_code = new_entity(&opts);
 	else if (strcmp(cmd, "re") == 0 || strcmp(cmd, "rm-entity") == 0)

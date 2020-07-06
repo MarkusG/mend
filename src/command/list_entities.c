@@ -2,73 +2,45 @@
 
 #include "command.h"
 #include "../utils.h"
+#include "../../include/mend.h"
 
-void list_entities(PGconn *conn, options *options) {
+int list_entities(options *options) {
 	if (options->identifiers[1]) {
 		int i = 1;
 		const char *id;
+		mend_id_kind kind;
 		while ((id = options->identifiers[i])) {
-			PGresult *result = PQexecParams(conn,
-					"SELECT uid, name "
-					"FROM entity "
-					"WHERE uid::TEXT = $1 "
-					"OR name = $1 "
-					"ORDER BY name",
-					1,
-					NULL,
-					&id,
-					NULL,
-					NULL,
-					0);
-
-			switch (PQresultStatus(result)) {
-				case PGRES_TUPLES_OK:
-					break;
-				default:
-					// unexpected response
-					fprintf(stderr, ERR "%s: %s",
-							PQresStatus(PQresultStatus(result)),
-							PQresultErrorMessage(result));
-					exit(1);
+			if (is_uuid(id))
+				kind = MEND_UUID;
+			else
+				kind = MEND_NAME;
+			mend_entity *entity = mend_get_entity(id, kind);
+			if (!entity) {
+				fprintf(stderr, ERR "%s\n", mend_error());
+				return 1;
 			}
-
-			
-			int n_tuples = PQntuples(result);
-			for (int i = 0; i < n_tuples; i++) {
-				printf("%s %s\n",
-						PQgetvalue(result, i, 0),
-						PQgetvalue(result, i, 1));
-			}
+			printf("%s %s\n",
+					mend_entity_uid(entity),
+					mend_entity_name(entity));
+			mend_free_entity(entity);
 			++i;
-			PQclear(result);
 		}
 	} else {
-		PGresult *result = PQexecParams(conn,
-				"SELECT uid, name "
-				"FROM entity "
-				"ORDER BY name",
-				0,
-				NULL,
-				NULL,
-				NULL,
-				NULL,
-				0);
-		switch (PQresultStatus(result)) {
-			case PGRES_TUPLES_OK:
-				break;
-			default:
-				// unexpected response
-				fprintf(stderr, ERR "%s: %s",
-						PQresStatus(PQresultStatus(result)),
-						PQresultErrorMessage(result));
-				exit(1);
+		mend_entity **entities = mend_get_entities();
+		if (!entities) {
+			fprintf(stderr, ERR "%s\n", mend_error());
+			return 1;
 		}
-		int n_tuples = PQntuples(result);
-		for (int i = 0; i < n_tuples; i++) {
+		int i = 0;
+		mend_entity *entity;
+		while ((entity = entities[i])) {
 			printf("%s %s\n",
-					PQgetvalue(result, i, 0),
-					PQgetvalue(result, i, 1));
+					mend_entity_uid(entity),
+					mend_entity_name(entity));
+			mend_free_entity(entity);
+			i++;
 		}
-		PQclear(result);
+		free((void*)entities);
 	}
+	return 0;
 }

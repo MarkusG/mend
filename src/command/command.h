@@ -18,7 +18,7 @@ typedef enum command {
 	DELETE_RELATION
 } command;
 
-void list_entities(PGconn*, options*);
+int list_entities(options*);
 int new_entity(options*);
 int remove_entity(options*);
 int new_alias(options*);

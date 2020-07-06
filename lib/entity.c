@@ -85,6 +85,86 @@ void mend_free_entity(
 	free((void*)entity);
 }
 
+mend_entity **mend_get_entities() {
+	PGresult *result = PQexecParams(_conn,
+			"SELECT uid::TEXT, name, EXTRACT(EPOCH FROM created)::INTEGER "
+			"FROM entity "
+			"ORDER BY name",
+			0,
+			NULL,
+			NULL,
+			NULL,
+			NULL,
+			1);
+
+	if (PQresultStatus(result) != PGRES_TUPLES_OK) {
+		_set_error("libpq: %s", PQresultErrorMessage(result));
+		PQclear(result);
+		return NULL;
+	}
+
+	mend_entity **ret = malloc((PQntuples(result) + 1) * sizeof(mend_entity*));
+	int i;
+	for (i = 0; i < PQntuples(result); i++) {
+		ret[i] = malloc(sizeof(mend_entity));
+		ret[i]->uid = strdup(PQgetvalue(result, i, 0));
+		ret[i]->name = strdup(PQgetvalue(result, i, 1));
+		ret[i]->created = ntohl(*((long int*)PQgetvalue(result, i, 2)));
+	}
+	ret[i] = NULL;
+	PQclear(result);
+	return ret;
+}
+
+mend_entity *mend_get_entity(
+		const char *id,
+		mend_id_kind kind) {
+	const char *query;
+	switch (kind) {
+		case MEND_UUID:
+			query =
+				"SELECT uid::TEXT, name, EXTRACT(EPOCH FROM created)::INTEGER "
+				"FROM entity "
+				"WHERE uid = $1";
+			break;
+		case MEND_NAME:
+			query =
+				"SELECT uid::TEXT, name, EXTRACT(EPOCH FROM created)::INTEGER "
+				"FROM entity "
+				"WHERE name = $1";
+			break;
+	}
+
+	PGresult *result = PQexecParams(_conn,
+			query,
+			1,
+			NULL,
+			&id,
+			NULL,
+			NULL,
+			1);
+
+	if (PQresultStatus(result) != PGRES_TUPLES_OK) {
+		_set_error("libpq: %s", PQresultErrorMessage(result));
+		PQclear(result);
+		return NULL;
+	}
+
+	if (PQntuples(result) == 0) {
+		_set_error("no such entity %s", id);
+		PQclear(result);
+		return NULL;
+	}
+
+	mend_entity *value = malloc(sizeof(mend_entity));
+	value->uid = strdup(PQgetvalue(result, 0, 0));
+	value->name = strdup(PQgetvalue(result, 0, 1));
+	value->created = ntohl(*((long int*)PQgetvalue(result, 0, 2)));
+
+	PQclear(result);
+	return value;
+}
+
 int mend_remove_entity(
 		const char *id,
 		mend_id_kind kind) {
