@@ -78,8 +78,8 @@ const mend_alias *mend_new_alias(
 void mend_free_alias(
 		const mend_alias *alias) {
 	free((void*)alias->uid);
-	free((void*)alias->value);
 	free((void*)alias->entity_uid);
+	free((void*)alias->value);
 }
 
 const mend_alias *mend_get_alias(
