@@ -78,6 +78,56 @@ void mend_free_alias(
 	free((void*)alias->entity_uid);
 }
 
+const mend_alias *mend_get_alias(
+		const char *id,
+		mend_id_kind kind) {
+	const char *query;
+	switch (kind) {
+		case MEND_UUID:
+			query =
+				"SELECT uid::TEXT, entity::TEXT, value, EXTRACT(EPOCH FROM since)::INTEGER",
+				"FROM alias "
+				"WHERE uid = $1";
+			break;
+		case MEND_NAME:
+			query =
+				"SELECT uid::TEXT, entity::TEXT, value, EXTRACT(EPOCH FROM since)::INTEGER",
+				"FROM entity "
+				"WHERE name = $1";
+			break;
+	}
+
+	PGresult *result = PQexecParams(_conn,
+			query,
+			1,
+			NULL,
+			&id,
+			NULL,
+			NULL,
+			1);
+
+	if (PQresultStatus(result) != PGRES_TUPLES_OK) {
+		_set_error("libpq: %s", PQresultErrorMessage(result));
+		PQclear(result);
+		return NULL;
+	}
+
+	if (PQntuples(result) == 0) {
+		_set_error("no such alias %s", id);
+		PQclear(result);
+		return NULL;
+	}
+
+	mend_alias *value = malloc(sizeof(mend_alias));
+	value->uid = strdup(PQgetvalue(result, 0, 0));
+	value->entity_uid = strdup(PQgetvalue(result, 0, 1));
+	value->name = strdup(PQgetvalue(result, 0, 2));
+	value->since = ntohl(*((long int*)PQgetvalue(result, 0, 3)));
+
+	PQclear(result);
+	return (const mend_alias*)value;
+}
+
 int mend_remove_alias(
 		const char *id,
 		mend_id_kind kind) {
