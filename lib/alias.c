@@ -10,12 +10,12 @@ const char *mend_alias_uid(const mend_alias *alias) {
 	return alias->uid;
 }
 
-const char *mend_alias_name(const mend_alias *alias) {
-	return alias->name;
-}
-
 const char *mend_alias_entity_uid(const mend_alias *alias) {
 	return alias->entity_uid;
+}
+
+const char *mend_alias_value(const mend_alias *alias) {
+	return alias->value;
 }
 
 time_t mend_alias_since(const mend_alias *alias) {
@@ -63,7 +63,7 @@ const mend_alias *mend_new_alias(
 	mend_alias *value = malloc(sizeof(mend_alias));
 	value->uid = strdup(PQgetvalue(result, 0, 0));
 	value->entity_uid = strdup(PQgetvalue(result, 0, 1));
-	value->name = strdup(PQgetvalue(result, 0, 2));
+	value->value = strdup(PQgetvalue(result, 0, 2));
 	value->since = ntohl(*((long int*)PQgetvalue(result, 0, 3)));
 	PQclear(result);
 	if (id_converted)
@@ -74,7 +74,7 @@ const mend_alias *mend_new_alias(
 void mend_free_alias(
 		const mend_alias *alias) {
 	free((void*)alias->uid);
-	free((void*)alias->name);
+	free((void*)alias->value);
 	free((void*)alias->entity_uid);
 }
 
@@ -121,7 +121,7 @@ const mend_alias *mend_get_alias(
 	mend_alias *value = malloc(sizeof(mend_alias));
 	value->uid = strdup(PQgetvalue(result, 0, 0));
 	value->entity_uid = strdup(PQgetvalue(result, 0, 1));
-	value->name = strdup(PQgetvalue(result, 0, 2));
+	value->value = strdup(PQgetvalue(result, 0, 2));
 	value->since = ntohl(*((long int*)PQgetvalue(result, 0, 3)));
 
 	PQclear(result);
