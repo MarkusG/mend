@@ -6,19 +6,23 @@
 #include "_mend.h"
 #include "../include/mend.h"
 
-const char *mend_alias_uid(const mend_alias *alias) {
+const char *mend_alias_uid(
+		const mend_alias *alias) {
 	return alias->uid;
 }
 
-const char *mend_alias_entity_uid(const mend_alias *alias) {
+const char *mend_alias_entity_uid(
+		const mend_alias *alias) {
 	return alias->entity_uid;
 }
 
-const char *mend_alias_value(const mend_alias *alias) {
+const char *mend_alias_value(
+		const mend_alias *alias) {
 	return alias->value;
 }
 
-time_t mend_alias_since(const mend_alias *alias) {
+time_t mend_alias_since(
+		const mend_alias *alias) {
 	return alias->since;
 }
 

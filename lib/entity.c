@@ -6,15 +6,18 @@
 #include "_mend.h"
 #include "../include/mend.h"
 
-const char *mend_entity_uid(const mend_entity *entity) {
+const char *mend_entity_uid(
+		const mend_entity *entity) {
 	return entity->uid;
 }
 
-const char *mend_entity_name(const mend_entity *entity) {
+const char *mend_entity_name(
+		const mend_entity *entity) {
 	return entity->name;
 }
 
-time_t mend_entity_created(const mend_entity *entity) {
+time_t mend_entity_created(
+		const mend_entity *entity) {
 	return entity->created;
 }
 
