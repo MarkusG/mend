@@ -55,7 +55,11 @@ const mend_alias *mend_new_alias(
 	PGresult *result = PQexecParams(_conn,
 			"INSERT INTO alias (entity, value) "
 			"VALUES ($1, $2) "
-			"RETURNING uid::TEXT, entity::TEXT, value, EXTRACT(EPOCH FROM since)::INTEGER",
+			"RETURNING "
+			"	uid::TEXT, "
+			"	entity::TEXT, "
+			"	value, "
+			"	EXTRACT(EPOCH FROM since)::INTEGER",
 			2,
 			NULL,
 			params,
@@ -69,15 +73,15 @@ const mend_alias *mend_new_alias(
 		return NULL;
 	}
 
-	mend_alias *value = malloc(sizeof(mend_alias));
-	value->uid = strdup(PQgetvalue(result, 0, 0));
-	value->entity_uid = strdup(PQgetvalue(result, 0, 1));
-	value->value = strdup(PQgetvalue(result, 0, 2));
-	value->since = ntohl(*((time_t*)PQgetvalue(result, 0, 3)));
+	mend_alias *ret = malloc(sizeof(mend_alias));
+	ret->uid = strdup(PQgetvalue(result, 0, 0));
+	ret->entity_uid = strdup(PQgetvalue(result, 0, 1));
+	ret->value = strdup(PQgetvalue(result, 0, 2));
+	ret->since = ntohl(*((time_t*)PQgetvalue(result, 0, 3)));
 	PQclear(result);
 	if (id_converted)
 		free((void*)identifier);
-	return (const mend_alias*)value;
+	return (const mend_alias*)ret;
 }
 
 void mend_free_alias(
@@ -94,13 +98,21 @@ const mend_alias *mend_get_alias(
 	switch (kind) {
 		case MEND_UUID:
 			query =
-				"SELECT uid::TEXT, entity::TEXT, value, EXTRACT(EPOCH FROM since)::INTEGER",
+				"SELECT "
+				"	uid::TEXT, "
+				"	entity::TEXT, "
+				"	value, "
+				"	EXTRACT(EPOCH FROM since)::INTEGER",
 				"FROM alias "
 				"WHERE uid = $1";
 			break;
 		case MEND_NAME:
 			query =
-				"SELECT uid::TEXT, entity::TEXT, value, EXTRACT(EPOCH FROM since)::INTEGER",
+				"SELECT "
+				"	uid::TEXT, "
+				"	entity::TEXT, "
+				"	value, "
+				"	EXTRACT(EPOCH FROM since)::INTEGER",
 				"FROM entity "
 				"WHERE name = $1";
 			break;
@@ -127,14 +139,14 @@ const mend_alias *mend_get_alias(
 		return NULL;
 	}
 
-	mend_alias *value = malloc(sizeof(mend_alias));
-	value->uid = strdup(PQgetvalue(result, 0, 0));
-	value->entity_uid = strdup(PQgetvalue(result, 0, 1));
-	value->value = strdup(PQgetvalue(result, 0, 2));
-	value->since = ntohl(*((time_t*)PQgetvalue(result, 0, 3)));
+	mend_alias *ret = malloc(sizeof(mend_alias));
+	ret->uid = strdup(PQgetvalue(result, 0, 0));
+	ret->entity_uid = strdup(PQgetvalue(result, 0, 1));
+	ret->value = strdup(PQgetvalue(result, 0, 2));
+	ret->since = ntohl(*((time_t*)PQgetvalue(result, 0, 3)));
 
 	PQclear(result);
-	return (const mend_alias*)value;
+	return (const mend_alias*)ret;
 }
 
 int mend_remove_alias(

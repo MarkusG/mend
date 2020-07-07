@@ -57,9 +57,12 @@ const mend_note *mend_new_note(
 	PGresult *result = PQexecParams(_conn,
 			"INSERT INTO note (entity, value) "
 			"VALUES ($1, $2) "
-			"RETURNING uid::TEXT, entity::TEXT, value, "
-			"EXTRACT(EPOCH FROM created)::INTEGER, "
-			"EXTRACT(EPOCH FROM updated)::INTEGER",
+			"RETURNING "
+			"	uid::TEXT, "
+			"	entity::TEXT, "
+			"	value, "
+			"	EXTRACT(EPOCH FROM created)::INTEGER, "
+			"	EXTRACT(EPOCH FROM updated)::INTEGER",
 			2,
 			NULL,
 			params,
@@ -97,9 +100,12 @@ void mend_free_note(
 const mend_note *mend_get_note(
 		const char *uid) {
 	PGresult *result = PQexecParams(_conn,
-			"SELECT uid::TEXT, entity::TEXT, value, "
-			"EXTRACT(EPOCH FROM created)::INTEGER, "
-			"EXTRACT(EPOCH FROM updated)::INTEGER "
+			"SELECT "
+			"	uid::TEXT, "
+			"	entity::TEXT, "
+			"	value, "
+			"	EXTRACT(EPOCH FROM created)::INTEGER, "
+			"	EXTRACT(EPOCH FROM updated)::INTEGER "
 			"FROM note "
 			"WHERE uid = $1",
 			1,
@@ -143,9 +149,12 @@ const mend_note *mend_edit_note(
 			"UPDATE note "
 			"SET value = $1 "
 			"WHERE uid = $2 "
-			"RETURNING uid::TEXT, entity::TEXT, value, "
-			"EXTRACT(EPOCH FROM created)::INTEGER, "
-			"EXTRACT(EPOCH FROM updated)::INTEGER",
+			"RETURNING "
+			"	uid::TEXT, "
+			"	entity::TEXT, "
+			"	value, "
+			"	EXTRACT(EPOCH FROM created)::INTEGER, "
+			"	EXTRACT(EPOCH FROM updated)::INTEGER",
 			2,
 			NULL,
 			params,

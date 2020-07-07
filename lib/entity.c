@@ -71,13 +71,13 @@ const mend_entity *mend_new_entity(
 		return NULL;
 	}
 
-	mend_entity *value = malloc(sizeof(mend_entity));
-	value->uid = strdup(PQgetvalue(result, 0, 0));
-	value->name = strdup(PQgetvalue(result, 0, 1));
-	value->created = ntohl(*((time_t*)PQgetvalue(result, 0, 2)));
+	mend_entity *ret = malloc(sizeof(mend_entity));
+	ret->uid = strdup(PQgetvalue(result, 0, 0));
+	ret->name = strdup(PQgetvalue(result, 0, 1));
+	ret->created = ntohl(*((time_t*)PQgetvalue(result, 0, 2)));
 
 	PQclear(result);
-	return value;
+	return (const mend_entity*)ret;
 }
 
 void mend_free_entity(
@@ -158,13 +158,13 @@ const mend_entity *mend_get_entity(
 		return NULL;
 	}
 
-	mend_entity *value = malloc(sizeof(mend_entity));
-	value->uid = strdup(PQgetvalue(result, 0, 0));
-	value->name = strdup(PQgetvalue(result, 0, 1));
-	value->created = ntohl(*((time_t*)PQgetvalue(result, 0, 2)));
+	mend_entity *ret = malloc(sizeof(mend_entity));
+	ret->uid = strdup(PQgetvalue(result, 0, 0));
+	ret->name = strdup(PQgetvalue(result, 0, 1));
+	ret->created = ntohl(*((time_t*)PQgetvalue(result, 0, 2)));
 
 	PQclear(result);
-	return (const mend_entity*)value;
+	return (const mend_entity*)ret;
 }
 
 int mend_remove_entity(
