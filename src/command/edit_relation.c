@@ -3,8 +3,9 @@
 
 #include "command.h"
 #include "../utils.h"
+#include "../../include/mend.h"
 
-void edit_relation(PGconn *conn, options *options) {
+int edit_relation(options *options) {
 	const char *id = options->identifiers[1];
 	if (!id) {
 		fprintf(stderr, ERR "no identifier specified\n");
@@ -20,37 +21,14 @@ void edit_relation(PGconn *conn, options *options) {
 		exit(1);
 	}
 
-	const char *const params[] = {
-		id,
-		value
-	};
-
-	PGresult *result = PQexecParams(conn,
-			"UPDATE relation "
-			"SET note = $2 "
-			"WHERE uid = $1 "
-			"RETURNING uid",
-			2,
-			NULL,
-			params,
-			NULL,
-			NULL,
-			0);
-
-	switch (PQresultStatus(result)) {
-		case PGRES_TUPLES_OK:
-			break;
-		default:
-			// unexpected response
-			fprintf(stderr, ERR "%s: %s",
-					PQresStatus(PQresultStatus(result)),
-					PQresultErrorMessage(result));
-			exit(1);
+	const mend_relation *relation = mend_edit_relation(id, value);
+	if (!relation) {
+		fprintf(stderr, ERR "%s\n", mend_error());
+		return 1;
 	}
 
-	if (PQntuples(result) == 0)
-		fprintf(stderr, ERR "note %s not found\n", id);
-	else
-		printf("%s\n", PQgetvalue(result, 0, 0));
-	PQclear(result);
+	printf("%s\n", mend_relation_uid(relation));
+	mend_free_relation(relation);
+
+	return 0;
 }

@@ -2,111 +2,33 @@
 
 #include "command.h"
 #include "../utils.h"
+#include "../../include/mend.h"
 
-void new_relation(PGconn *conn, options *options) {
-	const char *id_a = options->identifiers[1];
-	if (!id_a) {
-		fprintf(stderr, ERR "not enough arguments\n");
-		exit(1);
-	}
-
-	const char *id_b = options->identifiers[2];
-	if (!id_b) {
-		fprintf(stderr, ERR "not enough arguments\n");
-		exit(1);
+int new_relation(options *options) {
+	const char *id[2];
+	mend_id_kind kind[2];
+	for (int i = 0; i < 2; i++) {
+		if (!options->identifiers[i + 1]) {
+			fprintf(stderr, ERR "not enough arguments\n");
+			return 1;
+		} else {
+			id[i] = options->identifiers[i + 1];
+			if (is_uuid(id[i]))
+				kind[i] = MEND_UUID;
+			else
+				kind[i] = MEND_NAME;
+		}
 	}
 
 	const char *note = options->identifiers[3];
-	const char *entity[2] = { id_a, id_b };
-
-	for (int i = 0; i < 2; ++i) {
-		const char *id = entity[i];
-		if (!is_uuid(id)) {
-			PGresult *entity_result = PQexecParams(conn,
-					"SELECT uid "
-					"FROM entity "
-					"WHERE name = $1",
-					1,
-					NULL,
-					&id,
-					NULL,
-					NULL,
-					0);
-
-			switch (PQresultStatus(entity_result)) {
-				case PGRES_TUPLES_OK:
-					break;
-				default:
-					// unexpected response
-					fprintf(stderr, ERR "%s: %s",
-							PQresStatus(PQresultStatus(entity_result)),
-							PQresultErrorMessage(entity_result));
-					exit(1);
-			}
-
-			if (PQntuples(entity_result) == 0) {
-				fprintf(stderr, ERR "entity %s not found\n", id);
-				exit(1);
-			}
-
-			entity[i] = PQgetvalue(entity_result, 0, 0);
-			PQclear(entity_result);
-		}
+	
+	const mend_relation *relation = mend_new_relation(id, kind, note);
+	if (!relation) {
+		fprintf(stderr, ERR "%s\n", mend_error());
+		return 1;
 	}
 
-	PGresult *result;
-	if (note) {
-		const char *const params[] = {
-			entity[0],
-			entity[1],
-			note
-		};
-
-		result = PQexecParams(conn,
-				"INSERT INTO relation (entity_a, entity_b, note)"
-				"VALUES ($1, $2, $3) "
-				"RETURNING uid",
-				3,
-				NULL,
-				params,
-				NULL,
-				NULL,
-				0);
-
-		switch (PQresultStatus(result)) {
-			case PGRES_TUPLES_OK:
-				break;
-			default:
-				// unexpected response
-				fprintf(stderr, ERR "%s: %s",
-						PQresStatus(PQresultStatus(result)),
-						PQresultErrorMessage(result));
-				exit(1);
-		}
-	} else {
-		result = PQexecParams(conn,
-				"INSERT INTO relation (entity_a, entity_b)"
-				"VALUES ($1, $2) "
-				"RETURNING uid",
-				2,
-				NULL,
-				entity,
-				NULL,
-				NULL,
-				0);
-
-		switch (PQresultStatus(result)) {
-			case PGRES_TUPLES_OK:
-				break;
-			default:
-				// unexpected response
-				fprintf(stderr, ERR "%s: %s",
-						PQresStatus(PQresultStatus(result)),
-						PQresultErrorMessage(result));
-				exit(1);
-		}
-	}
-
-	printf("%s\n", PQgetvalue(result, 0, 0));
-	PQclear(result);
+	printf("%s\n", mend_relation_uid(relation));
+	mend_free_relation(relation);
+	return 0;
 }

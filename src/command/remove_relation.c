@@ -2,8 +2,9 @@
 
 #include "command.h"
 #include "../utils.h"
+#include "../../include/mend.h"
 
-void remove_relation(PGconn *conn, options *options) {
+int remove_relation(options *options) {
 	if (!options->identifiers[1]) {
 		fprintf(stderr, ERR "no identifier specified\n");
 		exit(1);
@@ -11,6 +12,7 @@ void remove_relation(PGconn *conn, options *options) {
 
 	int i = 1;
 	const char *id;
+	int result = 0;
 	while ((id = options->identifiers[i])) {
 		if (!is_uuid(id)) {
 			fprintf(stderr, ERR "\"%s\" is not a UUID\n", id);
@@ -18,28 +20,13 @@ void remove_relation(PGconn *conn, options *options) {
 			continue;
 		}
 
-		PGresult *result = PQexecParams(conn,
-				"DELETE FROM relation "
-				"WHERE uid = $1",
-				1,
-				NULL,
-				&id,
-				NULL,
-				NULL,
-				0);
-
-		switch (PQresultStatus(result)) {
-			case PGRES_COMMAND_OK:
-				break;
-			default:
-				// unexpected response
-				fprintf(stderr, ERR "%s: %s",
-						PQresStatus(PQresultStatus(result)),
-						PQresultErrorMessage(result));
-				exit(1);
+		if (mend_remove_relation(id)) {
+			fprintf(stderr, ERR "%s\n", mend_error());
+			result = 1;
 		}
 
 		++i;
-		PQclear(result);
 	}
+
+	return result;
 }

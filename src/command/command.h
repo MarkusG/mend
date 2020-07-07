@@ -26,7 +26,7 @@ int remove_alias(options*);
 int new_note(options*);
 int edit_note(options*);
 int remove_note(options*);
-void new_relation(PGconn*, options*);
-void edit_relation(PGconn*, options*);
-void remove_relation(PGconn*, options*);
+int new_relation(options*);
+int edit_relation(options*);
+int remove_relation(options*);
 #endif /* ifndef __MEND_COMMAND_H__ */

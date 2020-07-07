@@ -50,4 +50,19 @@ time_t mend_note_updated(const mend_note*);
 const mend_note *mend_get_note(const char*);
 const mend_note *mend_edit_note(const char*, const char*);
 int mend_remove_note(const char*);
+
+typedef struct mend_relation mend_relation;
+const mend_relation *mend_new_relation(const char*[], mend_id_kind[], const char*);
+void mend_free_relation(const mend_relation*);
+
+const char *mend_relation_uid(const mend_relation*);
+const char *mend_relation_entity_a_uid(const mend_relation*);
+const char *mend_relation_entity_b_uid(const mend_relation*);
+const char *mend_relation_note(const mend_relation*);
+time_t mend_relation_created(const mend_relation*);
+time_t mend_relation_updated(const mend_relation*);
+
+const mend_relation *mend_get_relation(const char*);
+const mend_relation *mend_edit_relation(const char*, const char*);
+int mend_remove_relation(const char*);
 #endif /* ifndef __MEND_H__ */

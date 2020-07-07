@@ -18,12 +18,6 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	PGconn *conn = PQconnectdb("dbname=mend");
-	if (PQstatus(conn) != CONNECTION_OK) {
-		printf("could not connect to database\n");
-		return 1;
-	}
-
 	char *cmd = opts.identifiers[0];
 	int exit_code;
 	if (strcmp(cmd, "le") == 0 || strcmp(cmd, "list-entities") == 0)
@@ -43,13 +37,12 @@ int main(int argc, char *argv[])
 	else if (strcmp(cmd, "rn") == 0 || strcmp(cmd, "rm-note") == 0)
 		exit_code = remove_note(&opts);
 	else if (strcmp(cmd, "nr") == 0 || strcmp(cmd, "new-relation") == 0)
-		new_relation(conn, &opts);
+		exit_code = new_relation(&opts);
 	else if (strcmp(cmd, "er") == 0 || strcmp(cmd, "edit-relation") == 0)
-		edit_relation(conn, &opts);
+		exit_code = edit_relation(&opts);
 	else if (strcmp(cmd, "rr") == 0 || strcmp(cmd, "rm-relation") == 0)
-		remove_relation(conn, &opts);
+		exit_code = remove_relation(&opts);
 
-	PQfinish(conn);
 	mend_cleanup();
 	free(opts.identifiers);
 	return exit_code;

@@ -26,4 +26,13 @@ struct mend_note {
 	time_t created;
 	time_t updated;
 };
+
+struct mend_relation {
+	const char *uid;
+	const char *a_uid;
+	const char *b_uid;
+	const char *note;
+	time_t created;
+	time_t updated;
+};
 #endif /* ifndef ___MEND_H__ */
