@@ -177,5 +177,6 @@ int mend_remove_alias(
 		return 2;
 	}
 
+	PQclear(result);
 	return 0;
 }
