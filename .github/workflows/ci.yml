@@ -7,19 +7,24 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    container:
+      image: postgres
+      ports: 
+        - 5432:5432
+      env:
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_USER: postgres
+      options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     steps:
     - uses: actions/checkout@v2
     - name: install meson
       run: sudo apt install meson
     - name: install postgres
-      run: sudo apt install postgresql
+      run: sudo apt install libpq5 libpq-dev
     - name: configure
       run: meson build
     - name: build
       run: ninja -C build
-    - name: start postgres
-      run: sudo service postgresql start
-    - name: see tables
-      run: psql -U postgres -c '\l'
     - name: run tests
       run: ninja -C build test
