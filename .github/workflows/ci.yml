@@ -17,9 +17,7 @@ jobs:
       run: meson build
     - name: build
       run: ninja -C build
-    - name: init postgres database
-      run: pg_ctl -D /usr/local/pgsql/data initdb
-    - name: start postgres
-      run: sudo systemctl start postgresql.service
+    - name: see tables
+      run: psql -c '\l'
     - name: run tests
       run: ninja -C build test
