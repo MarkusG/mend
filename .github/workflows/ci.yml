@@ -20,6 +20,6 @@ jobs:
     - name: start postgres
       run: sudo service postgresql start
     - name: see tables
-      run: psql -c '\l'
+      run: psql -U postgres -c '\l'
     - name: run tests
       run: ninja -C build test
