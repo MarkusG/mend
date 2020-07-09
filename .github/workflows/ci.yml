@@ -17,6 +17,8 @@ jobs:
       run: meson build
     - name: build
       run: ninja -C build
+    - name: add runner role
+      run: createuser runner
     - name: start postgres
       run: sudo service postgresql start
     - name: see tables
