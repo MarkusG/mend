@@ -17,6 +17,8 @@ jobs:
       run: meson build
     - name: build
       run: ninja -C build
+    - name: start postgres
+      run: service postgresql start
     - name: see tables
       run: psql -c '\l'
     - name: run tests
