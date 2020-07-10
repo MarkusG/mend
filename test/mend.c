@@ -13,6 +13,7 @@ int mend_init_test() {
 }
 
 int mend_cleanup_test() {
+	mend_init("postgresql://postgres@db/mend");
 	return mend_cleanup();
 }
 

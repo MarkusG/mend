@@ -3,5 +3,5 @@ mend_tests = executable('mend_tests',
   dependencies: deps,
   link_with: lib)
 
-test('mend_init', mend_tests, args : ['init'])
-test('mend_cleanup', mend_tests, args : ['cleanup'])
+test('mend_init', mend_tests, args : ['mend_init'])
+test('mend_cleanup', mend_tests, args : ['mend_cleanup'])
