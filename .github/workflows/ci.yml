@@ -9,5 +9,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: build docker-compose stack
+    - name: build docker-compose stack and run tests
       run: docker-compose up --exit-code-from mend --build mend
