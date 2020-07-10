@@ -11,6 +11,7 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
 	pkg-config \
 	ninja-build \
 	build-essential \
+	postgresql \
 	libpq5 \
 	libpq-dev
 
