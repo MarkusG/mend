@@ -1,10 +1,6 @@
 name: CI
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [ push ]
 
 jobs:
   build:
@@ -13,13 +9,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: install meson
-      run: sudo apt install meson
-    - name: install postgres
-      run: sudo apt install postgresql
-    - name: configure
-      run: meson build
-    - name: build
-      run: ninja -C build
-    - name: test
-      run: ninja -C build test
+    - name: build docker-compose stack
+      run: docker-compose up --exit-code-from mend --build mend

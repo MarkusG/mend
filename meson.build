@@ -28,6 +28,7 @@ sources = []
 headers = []
 
 subdir('lib')
+subdir('test')
 subdir('src')
 subdir('doc')
 
