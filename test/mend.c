@@ -25,8 +25,6 @@ int main(int argc, char *argv[])
 		return mend_init_test();
 	else if (strcmp(cmd, "mend_cleanup") == 0)
 		return mend_cleanup_test();
-	else {
-		printf("no command specified (somebody wrote a test wrong)\n");
-		return 1;
-	}
+	printf("bad command (somebody wrote a test wrong)\n");
+	return 1;
 }

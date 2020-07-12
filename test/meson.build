@@ -5,3 +5,16 @@ mend_tests = executable('mend_tests',
 
 test('mend_init', mend_tests, args : ['mend_init'])
 test('mend_cleanup', mend_tests, args : ['mend_cleanup'])
+
+entity_tests = executable('entity_tests',
+  'entity.c',
+  dependencies: deps,
+  link_with: lib)
+
+test('mend_new_entity', entity_tests, args: ['mend_new_entity'])
+test('mend_get_entities', entity_tests, args: ['mend_get_entities'])
+test('mend_get_entity by name', entity_tests, args: ['mend_get_entity_by_name'])
+test('mend_get_entity by UUID', entity_tests, args: ['mend_get_entity_by_uuid'])
+test('mend_remove_entity by name', entity_tests, args: ['mend_remove_entity_by_name'])
+test('mend_remove_entity by UUID', entity_tests, args: ['mend_remove_entity_by_uuid'])
+test('mend_uid_from_name', entity_tests, args: ['mend_uid_from_name'])
