@@ -1,10 +1,11 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "../include/mend.h"
 
 int mend_init_test() {
-	if (mend_init("postgresql://postgres@db/mend")) {
+	if (mend_init(getenv("MEND_CONNECTION_STRING"))) {
 		printf("%s\n", mend_error());
 		return 1;
 	}
@@ -13,7 +14,7 @@ int mend_init_test() {
 }
 
 int mend_cleanup_test() {
-	mend_init("postgresql://postgres@db/mend");
+	mend_init(getenv("MEND_CONNECTION_STRING"));
 	return mend_cleanup();
 }
 

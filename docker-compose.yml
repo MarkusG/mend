@@ -15,4 +15,6 @@ services:
     build: .
     depends_on:
       - "db"
+    environment:
+      MEND_CONNECTION_STRING: postgresql://postgres@db/mend
     command: ./test/wait-for-it.sh db:5432 -- ./test/test.sh
