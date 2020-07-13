@@ -35,6 +35,7 @@ const char *mend_alias_entity_uid(const mend_alias *alias);
 time_t mend_alias_since(const mend_alias *alias);
 
 const mend_alias *mend_get_alias(const char*, mend_id_kind);
+const mend_alias **mend_get_aliases(const mend_entity*e);
 int mend_remove_alias(const char*, mend_id_kind);
 
 typedef struct mend_note mend_note;

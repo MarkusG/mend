@@ -149,6 +149,44 @@ const mend_alias *mend_get_alias(
 	return (const mend_alias*)ret;
 }
 
+const mend_alias **mend_get_aliases(const mend_entity *entity) {
+	PGresult *result = PQexecParams(_conn,
+			"SELECT * FROM alias "
+			"WHERE entity = $1",
+			1,
+			NULL,
+			&entity->uid,
+			NULL,
+			NULL,
+			1);
+
+	if (PQresultStatus(result) != PGRES_TUPLES_OK) {
+		_set_error("libpq: %s", PQresultErrorMessage(result));
+		PQclear(result);
+		return NULL;
+	}
+
+	int n_tuples = PQntuples(result);
+	if (n_tuples == 0) {
+		_set_error("no aliases for entity %s", entity->uid);
+		PQclear(result);
+		return NULL;
+	}
+
+	mend_alias **ret = malloc((n_tuples + 1) * sizeof(mend_alias*));
+	int i;
+	for (i = 0; i < n_tuples; ++i) {
+		mend_alias *alias = malloc(sizeof(mend_alias));
+		alias->uid = strdup(PQgetvalue(result, i, 0));
+		alias->entity_uid = strdup(PQgetvalue(result, i, 1));
+		alias->value = strdup(PQgetvalue(result, i, 2));
+		alias->since = ntohl(*((time_t*)PQgetvalue(result, i, 3)));
+		ret[i] = alias;
+	}
+	ret[i] = NULL;
+	return (const mend_alias**)ret;
+}
+
 int mend_remove_alias(
 		const char *id,
 		mend_id_kind kind) {
