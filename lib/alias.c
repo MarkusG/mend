@@ -113,8 +113,8 @@ const mend_alias *mend_get_alias(
 				"	entity::TEXT, "
 				"	value, "
 				"	EXTRACT(EPOCH FROM since)::INTEGER",
-				"FROM entity "
-				"WHERE name = $1";
+				"FROM alias "
+				"WHERE value = $1";
 			break;
 	}
 
