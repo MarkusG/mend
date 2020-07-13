@@ -26,6 +26,8 @@ int main(int argc, char *argv[])
 		exit_code = remove_entity(&opts);
 	else if (strcmp(cmd, "na") == 0 || strcmp(cmd, "new-alias") == 0)
 		exit_code = new_alias(&opts);
+	else if (strcmp(cmd, "la") == 0 || strcmp(cmd, "list-aliases") == 0)
+		exit_code = list_aliases(&opts);
 	else if (strcmp(cmd, "ra") == 0 || strcmp(cmd, "rm-alias") == 0)
 		exit_code = remove_alias(&opts);
 	else if (strcmp(cmd, "nn") == 0 || strcmp(cmd, "new-note") == 0)

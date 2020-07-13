@@ -6,6 +6,7 @@ sources += [
   files('command/new_entity.c'),
   files('command/remove_entity.c'),
   files('command/new_alias.c'),
+  files('command/list_aliases.c'),
   files('command/remove_alias.c'),
   files('command/new_note.c'),
   files('command/edit_note.c'),

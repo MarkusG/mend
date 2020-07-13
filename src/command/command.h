@@ -22,6 +22,7 @@ int list_entities(options*);
 int new_entity(options*);
 int remove_entity(options*);
 int new_alias(options*);
+int list_aliases(options*);
 int remove_alias(options*);
 int new_note(options*);
 int edit_note(options*);
