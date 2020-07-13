@@ -4,7 +4,13 @@
 
 #include "../include/mend.h"
 
-int note_eq(const mend_note *note, const char *uid, const char *entity, const char *value, time_t created, time_t updated) {
+int note_eq(
+		const mend_note *note,
+		const char *uid,
+		const char *entity,
+		const char *value,
+		time_t created,
+		time_t updated) {
 	int ret = 0;
 	if (strcmp(mend_note_uid(note), uid) != 0) {
 		printf("uid %s failed to match\n", uid);

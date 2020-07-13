@@ -4,7 +4,12 @@
 
 #include "../include/mend.h"
 
-int alias_eq(const mend_alias *alias, const char *uid, const char *entity, const char *value, time_t since) {
+int alias_eq(
+		const mend_alias *alias,
+		const char *uid,
+		const char *entity,
+		const char *value,
+		time_t since) {
 	int ret = 0;
 	if (strcmp(mend_alias_uid(alias), uid) != 0) {
 		printf("uid %s failed to match\n", uid);

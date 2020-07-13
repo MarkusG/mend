@@ -4,7 +4,11 @@
 
 #include "../include/mend.h"
 
-int entity_eq(const mend_entity *entity, const char *uid, const char *name, const time_t created) {
+int entity_eq(
+		const mend_entity *entity,
+		const char *uid,
+		const char *name,
+		const time_t created) {
 	int ret = 0;
 	if (strcmp(mend_entity_uid(entity), uid) != 0) {
 		printf("uid %s failed to match\n", uid);
