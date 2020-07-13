@@ -77,6 +77,55 @@ int mend_get_alias_by_value_test() {
 			1006988400);
 }
 
+int mend_get_aliases_test() {
+	const mend_entity *foo_entity = mend_get_entity("Foo", MEND_NAME);
+	if (!foo_entity) {
+		printf("%s\n", mend_error());
+		return 1;
+	}
+	const mend_alias **aliases = mend_get_aliases(foo_entity);
+
+	int matched[2] = { 0, 0 };
+
+	int i = 0;
+	const mend_alias *alias;
+	while ((alias = aliases[i])) {
+		/* printf("%s %s %s %ld\n", */
+		/* 		mend_alias_uid(alias), */
+		/* 		mend_alias_entity_uid(alias), */
+		/* 		mend_alias_value(alias), */
+		/* 		mend_alias_since(alias)); */
+		if (alias_eq(alias,
+					"dd4e8f06-0124-4945-a58f-5d4931263799",
+					"a09d03f1-9e17-4127-b22c-08fbe65ef07f",
+					"Foo alias",
+					1006988400))
+			matched[0] = 1;
+		if (alias_eq(alias,
+					"f0e4e675-38fc-49f5-b595-a197b5370088",
+					"a09d03f1-9e17-4127-b22c-08fbe65ef07f",
+					"Foo alias 2",
+					1006988400))
+			matched[1] = 1;
+		++i;
+	}
+	
+	for (int i = 0; i < 2; ++i) {
+		if (!matched[i]) {
+			switch (i) {
+				case 0:
+					printf("Foo alias failed to match\n");
+					break;
+				case 1:
+					printf("Foo alias 2 failed to match\n");
+					break;
+			}
+			return 1;
+		}
+	}
+	return 0;
+}
+
 int mend_remove_alias_by_uuid_test() {
 	if (mend_remove_alias("3fcd6a93-0a4c-4241-ac56-3be36ca02ef8", MEND_UUID)) {
 		printf("%s\n", mend_error());
@@ -106,6 +155,8 @@ int main(int argc, char *argv[]) {
 		return mend_get_alias_by_uuid_test();
 	else if (strcmp(cmd, "mend_get_alias_by_value") == 0)
 		return mend_get_alias_by_value_test();
+	else if (strcmp(cmd, "mend_get_aliases") == 0)
+		return mend_get_aliases_test();
 	else if (strcmp(cmd, "mend_remove_alias_by_uuid") == 0)
 		return mend_remove_alias_by_uuid_test();
 	else if (strcmp(cmd, "mend_remove_alias_by_value") == 0)

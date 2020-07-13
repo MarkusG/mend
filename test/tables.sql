@@ -39,6 +39,14 @@ VALUES (
 	TIMESTAMP WITHOUT TIME ZONE '2001-11-28 23:00'
 );
 
+INSERT INTO alias (uid, entity, value, since)
+VALUES (
+	UUID 'f0e4e675-38fc-49f5-b595-a197b5370088',
+	UUID 'a09d03f1-9e17-4127-b22c-08fbe65ef07f',
+	'Foo alias 2',
+	TIMESTAMP WITHOUT TIME ZONE '2001-11-28 23:00'
+);
+
 INSERT INTO alias (uid, entity, value)
 VALUES (
 	UUID '3fcd6a93-0a4c-4241-ac56-3be36ca02ef8',

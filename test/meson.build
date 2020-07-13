@@ -26,6 +26,7 @@ alias_tests = executable('alias_tests',
 
 test('mend_new_alias', alias_tests, args: ['mend_new_alias'])
 test('mend_get_alias by uuid', alias_tests, args: ['mend_get_alias_by_uuid'])
+test('mend_get_aliases', alias_tests, args: ['mend_get_aliases'])
 test('mend_get_alias by value', alias_tests, args: ['mend_get_alias_by_value'])
 test('mend_remove_alias by uuid', alias_tests, args: ['mend_remove_alias_by_uuid'])
 test('mend_remove_alias by value', alias_tests, args: ['mend_remove_alias_by_value'])
