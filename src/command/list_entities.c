@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <time.h>
 
 #include "command.h"
 #include "../utils.h"
@@ -19,7 +20,18 @@ int list_entities(options *options) {
 				fprintf(stderr, ERR "%s\n", mend_error());
 				return 1;
 			}
-			printf("%s %s\n",
+
+			/* 
+			* format timestamp
+			* postgres gives us the timestamp in GMT, so we have to subtract
+			* the offset ourselves
+			*/
+			char timebuf[20];
+			const time_t created = localize(mend_entity_created(entity));
+			strftime(timebuf, sizeof(timebuf), "%F %R", localtime(&created));
+
+			printf("%s %s %s\n",
+					timebuf,
 					mend_entity_uid(entity),
 					mend_entity_name(entity));
 			mend_free_entity(entity);
@@ -34,7 +46,11 @@ int list_entities(options *options) {
 		int i = 0;
 		const mend_entity *entity;
 		while ((entity = entities[i])) {
-			printf("%s %s\n",
+			char timebuf[20];
+			const time_t created = localize(mend_entity_created(entity));
+			strftime(timebuf, sizeof(timebuf), "%F %R", localtime(&created));
+			printf("%s %s %s\n",
+					timebuf,
 					mend_entity_uid(entity),
 					mend_entity_name(entity));
 			mend_free_entity(entity);
