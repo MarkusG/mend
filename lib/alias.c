@@ -102,7 +102,7 @@ const mend_alias *mend_get_alias(
 				"	uid::TEXT, "
 				"	entity::TEXT, "
 				"	value, "
-				"	EXTRACT(EPOCH FROM since)::INTEGER",
+				"	EXTRACT(EPOCH FROM since)::INTEGER "
 				"FROM alias "
 				"WHERE uid = $1";
 			break;
@@ -112,7 +112,7 @@ const mend_alias *mend_get_alias(
 				"	uid::TEXT, "
 				"	entity::TEXT, "
 				"	value, "
-				"	EXTRACT(EPOCH FROM since)::INTEGER",
+				"	EXTRACT(EPOCH FROM since)::INTEGER "
 				"FROM alias "
 				"WHERE value = $1";
 			break;
