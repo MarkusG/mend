@@ -75,3 +75,33 @@ VALUES (
 	UUID 'a09d03f1-9e17-4127-b22c-08fbe65ef07f',
 	'to_be_removed'
 );
+
+INSERT INTO relation (uid, entity_a, entity_b, note, created, updated)
+VALUES (
+	UUID 'aea219b6-a39a-48f1-88f1-8c2affc528dd',
+	UUID 'a09d03f1-9e17-4127-b22c-08fbe65ef07f',
+	UUID 'bc05cd9e-098a-42c6-a92f-21f4529a9f89',
+	'Foo to bar',
+	TIMESTAMP WITHOUT TIME ZONE '2001-09-28 23:00',
+	TIMESTAMP WITHOUT TIME ZONE '2001-10-28 23:00'
+);
+
+INSERT INTO relation (uid, entity_a, entity_b, note, created, updated)
+VALUES (
+	UUID '027bf4d5-fc5a-480e-adfd-daabefe8dc28',
+	UUID 'a09d03f1-9e17-4127-b22c-08fbe65ef07f',
+	UUID 'bc05cd9e-098a-42c6-a92f-21f4529a9f89',
+	'to_be_edited',
+	TIMESTAMP WITHOUT TIME ZONE '2001-09-28 23:00',
+	TIMESTAMP WITHOUT TIME ZONE '2001-10-28 23:00'
+);
+
+INSERT INTO relation (uid, entity_a, entity_b, note, created, updated)
+VALUES (
+	UUID '979fdd4d-4142-40e0-88e6-ae8cd2987f5a',
+	UUID 'a09d03f1-9e17-4127-b22c-08fbe65ef07f',
+	UUID 'bc05cd9e-098a-42c6-a92f-21f4529a9f89',
+	'to_be_removed',
+	TIMESTAMP WITHOUT TIME ZONE '2001-09-28 23:00',
+	TIMESTAMP WITHOUT TIME ZONE '2001-10-28 23:00'
+);

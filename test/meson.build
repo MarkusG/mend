@@ -39,3 +39,13 @@ test('mend_new_note', note_tests, args: ['mend_new_note'])
 test('mend_get_note', note_tests, args: ['mend_get_note'])
 test('mend_edit_note', note_tests, args: ['mend_edit_note'])
 test('mend_remove_note', note_tests, args: ['mend_remove_note'])
+
+relation_tests = executable('relation_tests',
+  'relation.c',
+  dependencies: deps,
+  link_with: lib)
+
+test('mend_new_relation', relation_tests, args: ['mend_new_relation'])
+test('mend_get_relation', relation_tests, args: ['mend_get_relation'])
+test('mend_edit_relation', relation_tests, args: ['mend_edit_relation'])
+test('mend_remove_relation', relation_tests, args: ['mend_remove_relation'])
