@@ -1,28 +1,8 @@
 #include <stdlib.h>
-#include <time.h>
 
 #include "command.h"
 #include "../utils.h"
 #include "../../include/mend.h"
-
-void print_entity(const mend_entity *entity, options *options) {
-	if (!options->long_format) {
-		const char *uid_trunc = trunc_uuid(mend_entity_uid(entity));
-		printf("%s %s\n",
-				uid_trunc,
-				mend_entity_name(entity));
-		free((void*)uid_trunc);
-	} else {
-		char timebuf[20];
-		const time_t created = localize(mend_entity_created(entity));
-		strftime(timebuf, sizeof(timebuf), "%F %R", localtime(&created));
-
-		printf("%s %s %s\n",
-				timebuf,
-				mend_entity_uid(entity),
-				mend_entity_name(entity));
-	}
-}
 
 int list_entities(options *options) {
 	if (options->identifiers[1]) {
