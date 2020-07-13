@@ -141,8 +141,7 @@ int mend_uid_from_name_test() {
 	return 0;
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 	if (mend_init(getenv("MEND_CONNECTION_STRING"))) {
 		printf("%s\n", mend_error());
 		return 1;

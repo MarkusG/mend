@@ -18,8 +18,7 @@ int mend_cleanup_test() {
 	return mend_cleanup();
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 	const char *cmd = argv[1];
 	if (strcmp(cmd, "mend_init") == 0)
 		return mend_init_test();
