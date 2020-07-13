@@ -8,7 +8,7 @@
 
 int main(int argc, char *argv[])
 {
-	options opts;
+	options opts = { 0 };
 	parse_options(&opts, argc, argv);
 
 	if (mend_init("dbname=mend")) {

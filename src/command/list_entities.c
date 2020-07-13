@@ -5,6 +5,25 @@
 #include "../utils.h"
 #include "../../include/mend.h"
 
+void print_entity(const mend_entity *entity, options *options) {
+	if (!options->long_format) {
+		const char *uid_trunc = trunc_uuid(mend_entity_uid(entity));
+		printf("%s %s\n",
+				uid_trunc,
+				mend_entity_name(entity));
+		free((void*)uid_trunc);
+	} else {
+		char timebuf[20];
+		const time_t created = localize(mend_entity_created(entity));
+		strftime(timebuf, sizeof(timebuf), "%F %R", localtime(&created));
+
+		printf("%s %s %s\n",
+				timebuf,
+				mend_entity_uid(entity),
+				mend_entity_name(entity));
+	}
+}
+
 int list_entities(options *options) {
 	if (options->identifiers[1]) {
 		int i = 1;
@@ -21,19 +40,7 @@ int list_entities(options *options) {
 				return 1;
 			}
 
-			/* 
-			* format timestamp
-			* postgres gives us the timestamp in GMT, so we have to subtract
-			* the offset ourselves
-			*/
-			char timebuf[20];
-			const time_t created = localize(mend_entity_created(entity));
-			strftime(timebuf, sizeof(timebuf), "%F %R", localtime(&created));
-
-			printf("%s %s %s\n",
-					timebuf,
-					mend_entity_uid(entity),
-					mend_entity_name(entity));
+			print_entity(entity, options);
 			mend_free_entity(entity);
 			++i;
 		}
@@ -46,13 +53,7 @@ int list_entities(options *options) {
 		int i = 0;
 		const mend_entity *entity;
 		while ((entity = entities[i])) {
-			char timebuf[20];
-			const time_t created = localize(mend_entity_created(entity));
-			strftime(timebuf, sizeof(timebuf), "%F %R", localtime(&created));
-			printf("%s %s %s\n",
-					timebuf,
-					mend_entity_uid(entity),
-					mend_entity_name(entity));
+			print_entity(entity, options);
 			mend_free_entity(entity);
 			i++;
 		}
