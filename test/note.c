@@ -42,7 +42,7 @@ int mend_new_note_test() {
 	}
 
 	if (strcmp(mend_note_value(note), "Test note") != 0) {
-		printf("name does not match\n");
+		printf("value does not match\n");
 		return 1;
 	}
 
