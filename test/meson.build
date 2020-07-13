@@ -18,3 +18,14 @@ test('mend_get_entity by UUID', entity_tests, args: ['mend_get_entity_by_uuid'])
 test('mend_remove_entity by name', entity_tests, args: ['mend_remove_entity_by_name'])
 test('mend_remove_entity by UUID', entity_tests, args: ['mend_remove_entity_by_uuid'])
 test('mend_uid_from_name', entity_tests, args: ['mend_uid_from_name'])
+
+alias_tests = executable('alias_tests',
+  'alias.c',
+  dependencies: deps,
+  link_with: lib)
+
+test('mend_new_alias', alias_tests, args: ['mend_new_alias'])
+test('mend_get_alias by uuid', alias_tests, args: ['mend_get_alias_by_uuid'])
+test('mend_get_alias by value', alias_tests, args: ['mend_get_alias_by_value'])
+test('mend_remove_alias by uuid', alias_tests, args: ['mend_remove_alias_by_uuid'])
+test('mend_remove_alias by value', alias_tests, args: ['mend_remove_alias_by_value'])
