@@ -32,4 +32,5 @@ int new_relation(options*);
 int list_related(options*);
 int edit_relation(options*);
 int remove_relation(options*);
+int summarize(options*);
 #endif /* ifndef __MEND_COMMAND_H__ */

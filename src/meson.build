@@ -15,5 +15,6 @@ sources += [
   files('command/new_relation.c'),
   files('command/list_related.c'),
   files('command/edit_relation.c'),
-  files('command/remove_relation.c')
+  files('command/remove_relation.c'),
+  files('command/summarize.c')
 ]

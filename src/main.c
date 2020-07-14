@@ -46,6 +46,8 @@ int main(int argc, char *argv[])
 		exit_code = edit_relation(&opts);
 	else if (strcmp(cmd, "rr") == 0 || strcmp(cmd, "rm-relation") == 0)
 		exit_code = remove_relation(&opts);
+	else if (strcmp(cmd, "s") == 0 || strcmp(cmd, "summarize") == 0)
+		exit_code = summarize(&opts);
 
 	mend_cleanup();
 	free(opts.identifiers);
