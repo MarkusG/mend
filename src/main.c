@@ -40,8 +40,8 @@ int main(int argc, char *argv[])
 		exit_code = remove_note(&opts);
 	else if (strcmp(cmd, "nr") == 0 || strcmp(cmd, "new-relation") == 0)
 		exit_code = new_relation(&opts);
-	else if (strcmp(cmd, "lr") == 0 || strcmp(cmd, "list-relations") == 0)
-		exit_code = list_relations(&opts);
+	else if (strcmp(cmd, "lr") == 0 || strcmp(cmd, "list-related") == 0)
+		exit_code = list_related(&opts);
 	else if (strcmp(cmd, "er") == 0 || strcmp(cmd, "edit-relation") == 0)
 		exit_code = edit_relation(&opts);
 	else if (strcmp(cmd, "rr") == 0 || strcmp(cmd, "rm-relation") == 0)

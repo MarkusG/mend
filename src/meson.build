@@ -13,7 +13,7 @@ sources += [
   files('command/edit_note.c'),
   files('command/remove_note.c'),
   files('command/new_relation.c'),
-  files('command/list_relations.c'),
+  files('command/list_related.c'),
   files('command/edit_relation.c'),
   files('command/remove_relation.c')
 ]

@@ -4,7 +4,7 @@
 #include "../utils.h"
 #include "../../include/mend.h"
 
-int list_relations(options *options) {
+int list_related(options *options) {
 	const char *id = options->identifiers[1];
 	if (!id) {
 		fprintf(stderr, ERR "no identifier specified\n");
