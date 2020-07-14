@@ -96,6 +96,7 @@ void mend_free_note(
 	free((void*)note->uid);
 	free((void*)note->entity_uid);
 	free((void*)note->value);
+	free((void*)note);
 }
 
 
