@@ -9,16 +9,16 @@ int edit_relation(options *options) {
 	const char *id = options->identifiers[1];
 	if (!id) {
 		fprintf(stderr, ERR "no identifier specified\n");
-		exit(1);
+		return 1;
 	} else if (!is_uuid(id)) {
 		fprintf(stderr, ERR "argument must be a UUID\n");
-		exit(1);
+		return 1;
 	}
 
 	const char *value = options->identifiers[2];
 	if (!value) {
 		fprintf(stderr, ERR "no value specified\n");
-		exit(1);
+		return 1;
 	}
 
 	const mend_relation *relation = mend_edit_relation(id, value);

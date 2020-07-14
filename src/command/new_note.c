@@ -9,13 +9,13 @@ int new_note(options *options) {
 	const char *id = options->identifiers[1];
 	if (!id) {
 		fprintf(stderr, ERR "no identifier specified\n");
-		exit(1);
+		return 1;
 	}
 
 	const char *value = options->identifiers[2];
 	if (!value) {
 		fprintf(stderr, ERR "no value specified\n");
-		exit(1);
+		return 1;
 	}
 
 	mend_id_kind kind;

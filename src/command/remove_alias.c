@@ -7,7 +7,7 @@
 int remove_alias(options *options) {
 	if (!options->identifiers[1]) {
 		fprintf(stderr, ERR "no identifier specified\n");
-		exit(1);
+		return 1;
 	}
 
 	int i = 1;
