@@ -149,13 +149,30 @@ const mend_alias *mend_get_alias(
 	return (const mend_alias*)ret;
 }
 
-const mend_alias **mend_get_aliases(const mend_entity *entity) {
+const mend_alias **mend_get_aliases(const char *id, mend_id_kind kind) {
+	const char *identifier;
+	int id_converted = 0;
+	switch (kind) {
+		case MEND_UUID:
+			identifier = id;
+			break;
+		case MEND_NAME:
+			identifier = mend_uid_from_name(id);
+			id_converted = 1;
+			break;
+	}
+
+	if (!identifier) {
+		_set_error("no such entity %s", id);
+		return NULL;
+	}
+
 	PGresult *result = PQexecParams(_conn,
 			"SELECT * FROM alias "
 			"WHERE entity = $1",
 			1,
 			NULL,
-			&entity->uid,
+			&identifier,
 			NULL,
 			NULL,
 			1);
@@ -168,7 +185,7 @@ const mend_alias **mend_get_aliases(const mend_entity *entity) {
 
 	int n_tuples = PQntuples(result);
 	if (n_tuples == 0) {
-		_set_error("no aliases for entity %s", entity->uid);
+		_set_error("no aliases for entity %s", identifier);
 		PQclear(result);
 		return NULL;
 	}
@@ -184,6 +201,8 @@ const mend_alias **mend_get_aliases(const mend_entity *entity) {
 		ret[i] = alias;
 	}
 	ret[i] = NULL;
+	if (id_converted)
+		free((void*)identifier);
 	return (const mend_alias**)ret;
 }
 

@@ -18,7 +18,7 @@ int list_aliases(options *options) {
 		kind = MEND_NAME;
 
 	const mend_entity *entity = mend_get_entity(id, kind);
-	const mend_alias **aliases = mend_get_aliases(entity);
+	const mend_alias **aliases = mend_get_aliases(id, kind);
 	if (!aliases) {
 		fprintf(stderr, ERR "%s\n", mend_error());
 		return 1;

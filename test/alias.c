@@ -78,12 +78,7 @@ int mend_get_alias_by_value_test() {
 }
 
 int mend_get_aliases_test() {
-	const mend_entity *foo_entity = mend_get_entity("Foo", MEND_NAME);
-	if (!foo_entity) {
-		printf("%s\n", mend_error());
-		return 1;
-	}
-	const mend_alias **aliases = mend_get_aliases(foo_entity);
+	const mend_alias **aliases = mend_get_aliases("Foo", MEND_NAME);
 
 	int matched[2] = { 0, 0 };
 
