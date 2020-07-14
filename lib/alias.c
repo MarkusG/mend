@@ -176,7 +176,8 @@ const mend_alias **mend_get_aliases(
 			"	value, "
 			"	EXTRACT(EPOCH FROM since)::INTEGER "
 			"FROM alias "
-			"WHERE entity = $1",
+			"WHERE entity = $1"
+			"ORDER BY since DESC",
 			1,
 			NULL,
 			&identifier,
