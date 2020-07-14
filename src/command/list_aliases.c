@@ -28,7 +28,10 @@ int list_aliases(options *options) {
 	int i = 0;
 	const mend_alias *alias;
 	while ((alias = aliases[i])) {
-		printf("%s\n", mend_alias_value(alias));
+		char a_timebuf[20];
+		time_t since = localize(mend_alias_since(alias));
+		strftime(a_timebuf, sizeof(a_timebuf), "%F %R", localtime(&since));
+		printf("since %s: %s\n", a_timebuf, mend_alias_value(alias));
 		mend_free_alias(alias);
 		++i;
 	}

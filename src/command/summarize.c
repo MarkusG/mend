@@ -33,7 +33,7 @@ int summarize(options *options) {
 
 	const mend_alias **aliases = mend_get_aliases(id, kind);
 	if (aliases) {
-		printf("\nalso known as:\n\n");
+		printf("\nalso known as:\n");
 
 		int i = 0;
 		const mend_alias *alias;
