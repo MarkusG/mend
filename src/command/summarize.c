@@ -8,7 +8,7 @@ int summarize(options *options) {
 	const char *id = options->identifiers[1];
 	if (!id) {
 		fprintf(stderr, ERR "no identifier specified\n");
-		exit(1);
+		return 1;
 	}
 
 	mend_id_kind kind;
@@ -18,6 +18,10 @@ int summarize(options *options) {
 		kind = MEND_NAME;
 
 	const mend_entity *entity = mend_get_entity(id, kind);
+	if (!entity) {
+		printf("%s\n", mend_error());
+		return 1;
+	}
 	char timebuf[20];
 	time_t created = localize(mend_entity_created(entity));
 	strftime(timebuf, sizeof(timebuf), "%F %R", localtime(&created));
