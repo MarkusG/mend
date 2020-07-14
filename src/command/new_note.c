@@ -1,20 +1,14 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "command.h"
 #include "../utils.h"
 #include "../../include/mend.h"
 
-// TODO open the user's editor to create the note
 int new_note(options *options) {
 	const char *id = options->identifiers[1];
 	if (!id) {
 		fprintf(stderr, ERR "no identifier specified\n");
-		return 1;
-	}
-
-	const char *value = options->identifiers[2];
-	if (!value) {
-		fprintf(stderr, ERR "no value specified\n");
 		return 1;
 	}
 
@@ -24,6 +18,15 @@ int new_note(options *options) {
 	else
 		kind = MEND_NAME;
 
+	const char *value;
+	int edit_ret = edit_path("/tmp/mend_note", &value);
+	if (edit_ret == 1)
+		return 1;
+	else if (edit_ret == 2) {
+		fprintf(stderr, ERR "empty note\n");
+		return 1;
+	}
+
 	const mend_note *note = mend_new_note(id, kind, value);
 	if (!note) {
 		fprintf(stderr, ERR "%s\n", mend_error());
@@ -31,6 +34,7 @@ int new_note(options *options) {
 	}
 
 	printf("%s\n", mend_note_uid(note));
+	free((void*)value);
 	mend_free_note(note);
 	return 0;
 }

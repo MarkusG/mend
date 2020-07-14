@@ -9,4 +9,5 @@ int is_uuid(const char*);
 const char *trunc_uuid(const char*);
 time_t localize(time_t);
 void print_entity(const mend_entity*, options*);
+int edit_path(const char*, const char**);
 #endif /* ifndef __MEND_UTILS_H__ */

@@ -1,7 +1,10 @@
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 #include <time.h>
+#include <unistd.h>
 
 #include "utils.h"
 
@@ -42,4 +45,46 @@ void print_entity(const mend_entity *entity, options *options) {
 				mend_entity_uid(entity),
 				mend_entity_name(entity));
 	}
+}
+
+int edit_path(const char *path, const char **out) {
+	FILE *note_f = fopen(path, "a+");
+	if (note_f == NULL) {
+		fprintf(stderr, ERR "could not open %s: %s\n",
+				path,
+				strerror(errno));
+		*out = NULL;
+		return 1;
+	}
+	const char *editor = getenv("EDITOR");
+	if (!editor) {
+		fprintf(stderr, WARN "EDITOR not set. using vi\n");
+		editor = "vi";
+	}
+	char command[64];
+	sprintf(command, "%s %s", editor, path);
+	system(command);
+
+	struct stat path_st;
+	stat(path, &path_st);
+	int size = path_st.st_size;
+	if (size == 0) {
+		fclose(note_f);
+		remove(path);
+		*out = NULL;
+		return 2;
+	}
+
+	char *note_s = malloc((size + 1) * sizeof(char));
+	char c;
+	int i = 0;
+	while ((c = fgetc(note_f)) != EOF) {
+		note_s[i++] = c;
+	}
+	note_s[i] = '\0';
+	fclose(note_f);
+
+	remove(path);
+	*out = (const char*)note_s;
+	return 0;
 }
