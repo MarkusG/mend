@@ -149,7 +149,9 @@ const mend_alias *mend_get_alias(
 	return (const mend_alias*)ret;
 }
 
-const mend_alias **mend_get_aliases(const char *id, mend_id_kind kind) {
+const mend_alias **mend_get_aliases(
+		const char *id, 
+		mend_id_kind kind) {
 	const char *identifier;
 	int id_converted = 0;
 	switch (kind) {
