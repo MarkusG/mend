@@ -184,11 +184,11 @@ const mend_note **mend_get_notes(
 	int i;
 	for (i = 0; i < n_tuples; ++i) {
 		mend_note *note = malloc(sizeof(mend_note));
-		note->uid = strdup(PQgetvalue(result, 0, 0));
-		note->entity_uid = strdup(PQgetvalue(result, 0, 1));
-		note->value = strdup(PQgetvalue(result, 0, 2));
-		note->created = ntohl(*((time_t*)PQgetvalue(result, 0, 3)));
-		note->updated = ntohl(*((time_t*)PQgetvalue(result, 0, 4)));
+		note->uid = strdup(PQgetvalue(result, i, 0));
+		note->entity_uid = strdup(PQgetvalue(result, i, 1));
+		note->value = strdup(PQgetvalue(result, i, 2));
+		note->created = ntohl(*((time_t*)PQgetvalue(result, i, 3)));
+		note->updated = ntohl(*((time_t*)PQgetvalue(result, i, 4)));
 		ret[i] = note;
 	}
 	ret[i] = NULL;
