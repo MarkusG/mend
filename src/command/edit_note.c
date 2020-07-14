@@ -7,7 +7,6 @@
 #include "../utils.h"
 #include "../../include/mend.h"
 
-// TODO open the user's editor to create the note
 int edit_note(options *options) {
 	const char *id = options->identifiers[1];
 	if (!id) {
