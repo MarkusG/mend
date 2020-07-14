@@ -69,6 +69,8 @@ const mend_alias *mend_new_alias(
 
 	if (PQresultStatus(result) != PGRES_TUPLES_OK) {
 		_set_error("libpq: %s", PQresultErrorMessage(result));
+		if (id_converted)
+			free((void*)identifier);
 		PQclear(result);
 		return NULL;
 	}
@@ -187,6 +189,8 @@ const mend_alias **mend_get_aliases(
 
 	if (PQresultStatus(result) != PGRES_TUPLES_OK) {
 		_set_error("libpq: %s", PQresultErrorMessage(result));
+		if (id_converted)
+			free((void*)identifier);
 		PQclear(result);
 		return NULL;
 	}
@@ -194,6 +198,8 @@ const mend_alias **mend_get_aliases(
 	int n_tuples = PQntuples(result);
 	if (n_tuples == 0) {
 		_set_error("no aliases for entity %s", identifier);
+		if (id_converted)
+			free((void*)identifier);
 		PQclear(result);
 		return NULL;
 	}

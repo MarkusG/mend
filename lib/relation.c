@@ -80,6 +80,10 @@ const mend_relation *mend_new_relation(
 
 	if (PQresultStatus(result) != PGRES_TUPLES_OK) {
 		_set_error("libpq: %s", PQresultErrorMessage(result));
+		for (int i = 0; i < 2; i++) {
+			if (id_converted[i])
+				free((void*)identifiers[i]);
+		}
 		PQclear(result);
 		return NULL;
 	}
@@ -181,6 +185,8 @@ const mend_entity **mend_get_related_entities(
 
 	if (PQresultStatus(result) != PGRES_TUPLES_OK) {
 		_set_error("libpq: %s", PQresultErrorMessage(result));
+		if (id_converted)
+			free((void*)identifier);
 		PQclear(result);
 		return NULL;
 	}
@@ -188,6 +194,8 @@ const mend_entity **mend_get_related_entities(
 	int n_tuples = PQntuples(result);
 	if (n_tuples == 0) {
 		_set_error("no relations for entity %s", identifier);
+		if (id_converted)
+			free((void*)identifier);
 		PQclear(result);
 		return NULL;
 	}
