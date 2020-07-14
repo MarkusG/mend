@@ -108,10 +108,11 @@ const mend_entity **mend_get_entities() {
 	mend_entity **ret = malloc((PQntuples(result) + 1) * sizeof(mend_entity*));
 	int i;
 	for (i = 0; i < PQntuples(result); i++) {
-		ret[i] = malloc(sizeof(mend_entity));
-		ret[i]->uid = strdup(PQgetvalue(result, i, 0));
-		ret[i]->name = strdup(PQgetvalue(result, i, 1));
-		ret[i]->created = ntohl(*((time_t*)PQgetvalue(result, i, 2)));
+		mend_entity *entity = malloc(sizeof(mend_entity));
+		entity->uid = strdup(PQgetvalue(result, i, 0));
+		entity->name = strdup(PQgetvalue(result, i, 1));
+		entity->created = ntohl(*((time_t*)PQgetvalue(result, i, 2)));
+		ret[i] = entity;
 	}
 	ret[i] = NULL;
 	PQclear(result);
