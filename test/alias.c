@@ -85,11 +85,6 @@ int mend_get_aliases_test() {
 	int i = 0;
 	const mend_alias *alias;
 	while ((alias = aliases[i])) {
-		/* printf("%s %s %s %ld\n", */
-		/* 		mend_alias_uid(alias), */
-		/* 		mend_alias_entity_uid(alias), */
-		/* 		mend_alias_value(alias), */
-		/* 		mend_alias_since(alias)); */
 		if (alias_eq(alias,
 					"dd4e8f06-0124-4945-a58f-5d4931263799",
 					"a09d03f1-9e17-4127-b22c-08fbe65ef07f",
