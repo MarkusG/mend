@@ -29,6 +29,7 @@ int list_notes(options*);
 int edit_note(options*);
 int remove_note(options*);
 int new_relation(options*);
+int list_relations(options*);
 int edit_relation(options*);
 int remove_relation(options*);
 #endif /* ifndef __MEND_COMMAND_H__ */
