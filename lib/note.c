@@ -283,5 +283,6 @@ int mend_remove_note(
 		return 2;
 	}
 
+	PQclear(result);
 	return 0;
 }
