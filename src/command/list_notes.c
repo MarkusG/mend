@@ -27,7 +27,7 @@ int list_notes(options *options) {
 	int i = 0;
 	const mend_note *note;
 	while ((note = notes[i])) {
-		printf("\n%s:\n%s\n", trunc_uuid(mend_note_uid(note)), mend_note_value(note));
+		printf("\n%s:\n%s\n", mend_note_uid(note), mend_note_value(note));
 		mend_free_note(note);
 		++i;
 	}
