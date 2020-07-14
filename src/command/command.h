@@ -25,6 +25,7 @@ int new_alias(options*);
 int list_aliases(options*);
 int remove_alias(options*);
 int new_note(options*);
+int list_notes(options*);
 int edit_note(options*);
 int remove_note(options*);
 int new_relation(options*);

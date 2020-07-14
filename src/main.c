@@ -32,6 +32,8 @@ int main(int argc, char *argv[])
 		exit_code = remove_alias(&opts);
 	else if (strcmp(cmd, "nn") == 0 || strcmp(cmd, "new-note") == 0)
 		exit_code = new_note(&opts);
+	else if (strcmp(cmd, "ln") == 0 || strcmp(cmd, "list-notes") == 0)
+		exit_code = list_notes(&opts);
 	else if (strcmp(cmd, "en") == 0 || strcmp(cmd, "edit-note") == 0)
 		exit_code = edit_note(&opts);
 	else if (strcmp(cmd, "rn") == 0 || strcmp(cmd, "rm-note") == 0)
