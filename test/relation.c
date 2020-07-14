@@ -46,6 +46,30 @@ int relation_eq(
 	return ret;
 }
 
+int entity_eq(
+		const mend_entity *entity,
+		const char *uid,
+		const char *name,
+		const time_t created) {
+	int ret = 0;
+	if (strcmp(mend_entity_uid(entity), uid) != 0) {
+		printf("uid %s failed to match\n", uid);
+		ret = 1;
+	}
+
+	if (strcmp(mend_entity_name(entity), name) != 0) {
+		printf("name %s failed to match\n", name);
+		ret = 1;
+	}
+	
+	if (mend_entity_created(entity) != created) {
+		printf("created %ld failed to match\n", created);
+		ret = 1;
+	}
+
+	return ret;
+}
+
 int mend_new_relation_test() {
 	const char *uids[] = {
 		"a09d03f1-9e17-4127-b22c-08fbe65ef07f",
@@ -87,6 +111,44 @@ int mend_get_relation_test() {
 			1004310000);
 }
 
+int mend_get_related_entities_test() {
+	const mend_entity **entities = mend_get_related_entities("Foo", MEND_NAME);
+
+	int matched[2] = { 0, 0 };
+
+	int i = 0;
+	const mend_entity *entity;
+	while ((entity = entities[i])) {
+		if (entity_eq(entity,
+					"bc05cd9e-098a-42c6-a92f-21f4529a9f89",
+					"Bar",
+					1004310000))
+			matched[0] = 1;
+		if (entity_eq(entity,
+					"17e3f02a-8e2d-4a66-abca-d1082a9f9508",
+					"Baz",
+					1006988400))
+			matched[1] = 1;
+		++i;
+	}
+	
+	for (int i = 0; i < 2; ++i) {
+		if (!matched[i]) {
+			switch (i) {
+				case 0:
+					printf("Bar failed to match\n");
+					break;
+				case 1:
+					printf("Baz failed to match\n");
+					break;
+			}
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
 int mend_edit_relation_test() {
 	const mend_relation *edited = mend_edit_relation("027bf4d5-fc5a-480e-adfd-daabefe8dc28", "New value");
 	if (!edited) {
@@ -122,6 +184,8 @@ int main(int argc, char *argv[]) {
 		return mend_new_relation_test();
 	else if (strcmp(cmd, "mend_get_relation") == 0)
 		return mend_get_relation_test();
+	else if (strcmp(cmd, "mend_get_related_entities") == 0)
+		return mend_get_related_entities_test();
 	else if (strcmp(cmd, "mend_edit_relation") == 0)
 		return mend_edit_relation_test();
 	else if (strcmp(cmd, "mend_remove_relation") == 0)

@@ -49,5 +49,6 @@ relation_tests = executable('relation_tests',
 
 test('mend_new_relation', relation_tests, args: ['mend_new_relation'])
 test('mend_get_relation', relation_tests, args: ['mend_get_relation'])
+test('mend_get_related_entities', relation_tests, args: ['mend_get_related_entities'])
 test('mend_edit_relation', relation_tests, args: ['mend_edit_relation'])
 test('mend_remove_relation', relation_tests, args: ['mend_remove_relation'])

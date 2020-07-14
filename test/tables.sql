@@ -105,6 +105,26 @@ VALUES (
 
 INSERT INTO relation (uid, entity_a, entity_b, note, created, updated)
 VALUES (
+	UUID 'd0bd7269-cdbd-4d3a-b6cd-bf574e01ea7d',
+	UUID 'a09d03f1-9e17-4127-b22c-08fbe65ef07f',
+	UUID '17e3f02a-8e2d-4a66-abca-d1082a9f9508',
+	'Foo to baz',
+	TIMESTAMP WITHOUT TIME ZONE '2001-09-28 23:00',
+	TIMESTAMP WITHOUT TIME ZONE '2001-10-28 23:00'
+);
+
+INSERT INTO relation (uid, entity_a, entity_b, note, created, updated)
+VALUES (
+	UUID '6a086d51-2ec8-45a8-9223-31c5dacbc0fb',
+	UUID 'bc05cd9e-098a-42c6-a92f-21f4529a9f89',
+	UUID 'a09d03f1-9e17-4127-b22c-08fbe65ef07f',
+	'Bar to foo',
+	TIMESTAMP WITHOUT TIME ZONE '2001-09-28 23:00',
+	TIMESTAMP WITHOUT TIME ZONE '2001-10-28 23:00'
+);
+
+INSERT INTO relation (uid, entity_a, entity_b, note, created, updated)
+VALUES (
 	UUID '027bf4d5-fc5a-480e-adfd-daabefe8dc28',
 	UUID 'a09d03f1-9e17-4127-b22c-08fbe65ef07f',
 	UUID 'bc05cd9e-098a-42c6-a92f-21f4529a9f89',

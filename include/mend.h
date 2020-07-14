@@ -65,6 +65,7 @@ time_t mend_relation_created(const mend_relation*);
 time_t mend_relation_updated(const mend_relation*);
 
 const mend_relation *mend_get_relation(const char*);
+const mend_entity **mend_get_related_entities(const char*, mend_id_kind);
 const mend_relation *mend_edit_relation(const char*, const char*);
 int mend_remove_relation(const char*);
 #endif /* ifndef __MEND_H__ */

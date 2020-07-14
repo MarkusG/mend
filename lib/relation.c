@@ -146,6 +146,67 @@ const mend_relation *mend_get_relation(
 	return (const mend_relation*)ret;
 }
 
+const mend_entity **mend_get_related_entities(
+		const char *id,
+		mend_id_kind kind) {
+	const char *identifier;
+	int id_converted = 0;
+	switch (kind) {
+		case MEND_UUID:
+			identifier = id;
+			break;
+		case MEND_NAME:
+			identifier = mend_uid_from_name(id);
+			id_converted = 1;
+			break;
+	}
+
+	if (!identifier) {
+		_set_error("no such entity %s", id);
+		return NULL;
+	}
+
+	PGresult *result = PQexecParams(_conn,
+			"SELECT DISTINCT ON (e.uid) e.uid, e.name, e.created "
+			"FROM relation AS r "
+			"LEFT JOIN entity AS e ON e.uid = r.entity_a or e.uid = r.entity_b "
+			"WHERE entity_a = $1 OR entity_b = $1",
+			1,
+			NULL,
+			&identifier,
+			NULL,
+			NULL,
+			1);
+
+	if (PQresultStatus(result) != PGRES_TUPLES_OK) {
+		_set_error("libpq: %s", PQresultErrorMessage(result));
+		PQclear(result);
+		return NULL;
+	}
+
+	int n_tuples = PQntuples(result);
+	if (n_tuples == 0) {
+		_set_error("no relations for entity %s", identifier);
+		PQclear(result);
+		return NULL;
+	}
+
+	mend_entity **ret = malloc((n_tuples + 1) * sizeof(mend_entity*));
+	int i;
+	for (i = 0; i < n_tuples; ++i) {
+		mend_entity *entity = malloc(sizeof(mend_entity));
+		entity->uid = strdup(PQgetvalue(result, i, 0));
+		entity->name = strdup(PQgetvalue(result, i, 1));
+		entity->created = ntohl(*((time_t*)PQgetvalue(result, i, 2)));
+		ret[i] = entity;
+	}
+	ret[i] = NULL;
+	if (id_converted)
+		free((void*)identifier);
+	PQclear(result);
+	return (const mend_entity**)ret;
+}
+
 const mend_relation *mend_edit_relation(
 		const char *uid,
 		const char *value) {
