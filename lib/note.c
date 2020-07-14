@@ -158,7 +158,13 @@ const mend_note **mend_get_notes(
 	}
 
 	PGresult *result = PQexecParams(_conn,
-			"SELECT * FROM note "
+			"SELECT "
+			"	uid::TEXT, "
+			"	entity::TEXT, "
+			"	value, "
+			"	EXTRACT(EPOCH FROM created)::INTEGER, "
+			"	EXTRACT(EPOCH FROM updated)::INTEGER "
+			"FROM note "
 			"WHERE entity = $1",
 			1,
 			NULL,

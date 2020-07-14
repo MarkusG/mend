@@ -170,7 +170,12 @@ const mend_alias **mend_get_aliases(
 	}
 
 	PGresult *result = PQexecParams(_conn,
-			"SELECT * FROM alias "
+			"SELECT "
+			"	uid::TEXT, "
+			"	entity::TEXT, "
+			"	value, "
+			"	EXTRACT(EPOCH FROM since)::INTEGER "
+			"FROM alias "
 			"WHERE entity = $1",
 			1,
 			NULL,
