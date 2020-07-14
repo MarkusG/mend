@@ -57,7 +57,7 @@ int summarize(options *options) {
 		const mend_note *note;
 		while ((note = notes[i])) {
 			printf("\n%s:\n%s\n",
-					trunc_uuid(mend_note_uid(note)),
+					mend_note_uid(note),
 					mend_note_value(note));
 			mend_free_note(note);
 			++i;
