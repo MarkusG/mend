@@ -205,6 +205,7 @@ const mend_alias **mend_get_aliases(
 	ret[i] = NULL;
 	if (id_converted)
 		free((void*)identifier);
+	PQclear(result);
 	return (const mend_alias**)ret;
 }
 
