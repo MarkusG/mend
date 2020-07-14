@@ -70,6 +70,52 @@ int mend_get_note_test() {
 			1006988400);
 }
 
+int mend_get_notes_test() {
+	const mend_note **notes = mend_get_notes("Foo", MEND_NAME);
+
+	if (!notes) {
+		printf("%s\n", mend_error());
+		return 1;
+	}
+
+	int matched[2] = { 0, 0 };
+
+	int i = 0;
+	const mend_note *note;
+	while ((note = notes[i])) {
+		if (note_eq(note,
+					"01a04e4b-0a7e-4aae-ba19-0a5500c35b66",
+					"a09d03f1-9e17-4127-b22c-08fbe65ef07f",
+					"Foo note",
+					1004310000,
+					1006988400))
+			matched[0] = 1;
+		if (note_eq(note,
+					"954cd54a-78b5-484b-973c-3ff8cbf93dbd",
+					"a09d03f1-9e17-4127-b22c-08fbe65ef07f",
+					"Foo note 2",
+					1004310000,
+					1006988400))
+			matched[1] = 1;
+		++i;
+	}
+	
+	for (int i = 0; i < 2; ++i) {
+		if (!matched[i]) {
+			switch (i) {
+				case 0:
+					printf("Foo note failed to match\n");
+					break;
+				case 1:
+					printf("Foo note 2 failed to match\n");
+					break;
+			}
+			return 1;
+		}
+	}
+	return 0;
+}
+
 int mend_edit_note_test() {
 	const mend_note *edited = mend_edit_note("5f6d52a9-20f6-4dad-aa29-76ee6e097622", "New value");
 	if (!edited) {
@@ -104,6 +150,8 @@ int main(int argc, char *argv[]) {
 		return mend_new_note_test();
 	else if (strcmp(cmd, "mend_get_note") == 0)
 		return mend_get_note_test();
+	else if (strcmp(cmd, "mend_get_notes") == 0)
+		return mend_get_notes_test();
 	else if (strcmp(cmd, "mend_edit_note") == 0)
 		return mend_edit_note_test();
 	else if (strcmp(cmd, "mend_remove_note") == 0)

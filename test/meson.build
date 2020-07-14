@@ -38,6 +38,7 @@ note_tests = executable('note_tests',
 
 test('mend_new_note', note_tests, args: ['mend_new_note'])
 test('mend_get_note', note_tests, args: ['mend_get_note'])
+test('mend_get_notes', note_tests, args: ['mend_get_notes'])
 test('mend_edit_note', note_tests, args: ['mend_edit_note'])
 test('mend_remove_note', note_tests, args: ['mend_remove_note'])
 

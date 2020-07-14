@@ -137,6 +137,67 @@ const mend_note *mend_get_note(
 	return (const mend_note*)ret;
 }
 
+const mend_note **mend_get_notes(
+		const char *id,
+		mend_id_kind kind) {
+	const char *identifier;
+	int id_converted = 0;
+	switch (kind) {
+		case MEND_UUID:
+			identifier = id;
+			break;
+		case MEND_NAME:
+			identifier = mend_uid_from_name(id);
+			id_converted = 1;
+			break;
+	}
+
+	if (!identifier) {
+		_set_error("no such entity %s", id);
+		return NULL;
+	}
+
+	PGresult *result = PQexecParams(_conn,
+			"SELECT * FROM note "
+			"WHERE entity = $1",
+			1,
+			NULL,
+			&identifier,
+			NULL,
+			NULL,
+			1);
+
+	if (PQresultStatus(result) != PGRES_TUPLES_OK) {
+		_set_error("libpq: %s", PQresultErrorMessage(result));
+		PQclear(result);
+		return NULL;
+	}
+
+	int n_tuples = PQntuples(result);
+	if (n_tuples == 0) {
+		_set_error("no notes for entity %s", identifier);
+		PQclear(result);
+		return NULL;
+	}
+
+	mend_note **ret = malloc((n_tuples + 1) * sizeof(mend_note*));
+	int i;
+	for (i = 0; i < n_tuples; ++i) {
+		mend_note *note = malloc(sizeof(mend_note));
+		note->uid = strdup(PQgetvalue(result, 0, 0));
+		note->entity_uid = strdup(PQgetvalue(result, 0, 1));
+		note->value = strdup(PQgetvalue(result, 0, 2));
+		note->created = ntohl(*((time_t*)PQgetvalue(result, 0, 3)));
+		note->updated = ntohl(*((time_t*)PQgetvalue(result, 0, 4)));
+		ret[i] = note;
+	}
+	ret[i] = NULL;
+	if (id_converted)
+		free((void*)identifier);
+	PQclear(result);
+	return (const mend_note**)ret;
+}
+
 const mend_note *mend_edit_note(
 		const char *uid,
 		const char *value) {

@@ -49,6 +49,7 @@ time_t mend_note_created(const mend_note*);
 time_t mend_note_updated(const mend_note*);
 
 const mend_note *mend_get_note(const char*);
+const mend_note **mend_get_notes(const char*, mend_id_kind);
 const mend_note *mend_edit_note(const char*, const char*);
 int mend_remove_note(const char*);
 

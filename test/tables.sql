@@ -70,6 +70,15 @@ VALUES (
 
 INSERT INTO note (uid, entity, value, created, updated)
 VALUES (
+	UUID '954cd54a-78b5-484b-973c-3ff8cbf93dbd',
+	UUID 'a09d03f1-9e17-4127-b22c-08fbe65ef07f',
+	'Foo note 2',
+	TIMESTAMP WITHOUT TIME ZONE '2001-10-28 23:00',
+	TIMESTAMP WITHOUT TIME ZONE '2001-11-28 23:00'
+);
+
+INSERT INTO note (uid, entity, value, created, updated)
+VALUES (
 	UUID '5f6d52a9-20f6-4dad-aa29-76ee6e097622',
 	UUID 'a09d03f1-9e17-4127-b22c-08fbe65ef07f',
 	'to_be_editedd',
