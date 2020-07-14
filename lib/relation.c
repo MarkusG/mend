@@ -167,7 +167,8 @@ const mend_entity **mend_get_related_entities(
 	}
 
 	PGresult *result = PQexecParams(_conn,
-			"SELECT DISTINCT ON (e.uid) e.uid, e.name, e.created "
+			"SELECT DISTINCT ON (e.uid) e.uid::TEXT, "
+			"e.name, EXTRACT(EPOCH FROM e.created)::INTEGER "
 			"FROM relation AS r "
 			"LEFT JOIN entity AS e ON e.uid = r.entity_a or e.uid = r.entity_b "
 			"WHERE entity_a = $1 OR entity_b = $1",
