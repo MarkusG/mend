@@ -30,6 +30,7 @@ int summarize(options *options) {
 			mend_entity_uid(entity),
 			mend_entity_name(entity),
 			timebuf);
+	mend_free_entity(entity);
 
 	const mend_alias **aliases = mend_get_aliases(id, kind);
 	if (aliases) {
