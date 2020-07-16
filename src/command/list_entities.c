@@ -1,8 +1,8 @@
 #include <stdlib.h>
 
-#include "command.h"
-#include "../utils.h"
 #include "../../include/mend.h"
+#include "../utils.h"
+#include "command.h"
 
 int list_entities(options *options) {
 	if (options->identifiers[1]) {

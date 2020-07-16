@@ -1,8 +1,8 @@
 #include <stdlib.h>
 
-#include "command.h"
-#include "../utils.h"
 #include "../../include/mend.h"
+#include "../utils.h"
+#include "command.h"
 
 int remove_relation(options *options) {
 	if (!options->identifiers[1]) {

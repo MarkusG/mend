@@ -1,10 +1,8 @@
 #include <stdlib.h>
-#include <time.h>
-#include <arpa/inet.h>
 
-#include "command.h"
-#include "../utils.h"
 #include "../../include/mend.h"
+#include "../utils.h"
+#include "command.h"
 
 int new_entity(options *options) {
 	const char *name = options->identifiers[1];

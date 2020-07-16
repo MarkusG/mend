@@ -1,10 +1,10 @@
+#include <arpa/inet.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <arpa/inet.h>
 
-#include "_mend.h"
 #include "../include/mend.h"
+#include "_mend.h"
 
 const char *mend_alias_uid(
 		const mend_alias *alias) {

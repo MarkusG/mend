@@ -1,9 +1,8 @@
 #include <stdlib.h>
-#include <string.h>
 
-#include "command.h"
-#include "../utils.h"
 #include "../../include/mend.h"
+#include "../utils.h"
+#include "command.h"
 
 int new_note(options *options) {
 	const char *id = options->identifiers[1];
