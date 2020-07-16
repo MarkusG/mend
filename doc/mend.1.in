@@ -1,4 +1,4 @@
-.TH MEND 1 2020-07-02 "mend @MEND_VERSION@" "User Commands"
+.TH MEND 1 2020-07-16 "mend @MEND_VERSION@" "User Commands"
 
 .SH NAME
 mend \- frontend to the mend database
@@ -19,12 +19,102 @@ is a command line frontend to the mend database. It allows for basic operations 
 .TP 10
 .B \-h
 Show this manual page
+
+.TP 10
+.B \-l
+Print entities in long format
 .PD
+
+.SH SUBCOMMANDS
+In general, subcommands that create or edit records will print the created or edited record to standard output.
+.PP
+.PD 0
+.TP 10
+.B le, list-entities [entities...]
+Analogous to the coreutils 
+.B ls
+command. Lists all the entities in the database or, if provided a set of entity names and/or UUIDs, the given entities.
+
+
+.TP 10
+.B ne, new-entity <name>
+Creates an entity with the given name and prints its UUID to standard output.
+
+.TP 10
+.B re, rm-entity [entities...]
+Analogous to the coreutils 
+.B rm
+command. Removes the given entities. With the default menddb configuration, this also removes associated aliases, notes, and relations.
+
+
+.TP 10
+.B na, new-alias <entity>
+Creates a new alias for the given entity.
+
+.TP 10
+.B la, list-aliases <entity>
+Lists all aliases and their timestamps for the given entity.
+
+
+.TP 10
+.B ra, rm-alias [aliases...]
+Analogous to the coreutils 
+.B rm
+command. Removes the given aliases, which can be specified by alias name or UUID.
+
+.TP 10
+.B nn, new-note <entity>
+Creates a note for the given entity. Reads from
+.B EDITOR
+to determine which editor to use to write the note.
+
+
+.TP 10
+.B ln, list-notes <entity>
+Lists notes for the given entity.
+
+.TP 10
+.B en, edit-note <note>
+Edits the given note, which must be specified by UUID. Reads from 
+.B EDITOR
+to deteremine which editor to use to edit the note.
+
+
+.TP 10
+.B rn, rm-note [notes...]
+Analogous to the coreutils 
+.B rm
+command. Removes the given notes, which must specified by UUID.
+
+.TP 10
+.B nr, new-relation <entity> <entity> [note]
+Creates a relation between two entities with an optional note value.
+
+
+.TP 10
+.B er, edit-relation <relation> <note>
+Edits the note on a relation. Relation must be specified by UUID.
+
+.TP 10
+.B rr, rm-relation [relations...]
+Analogous to the coreutils 
+.B rm
+command. Removes the given relations, which must be specified by UUID.
+
+
+.TP 10
+.B s, summarize <entity>
+Lists an entity's aliases, notes, and relations.
 
 .SH EXIT STATUS
 .PP
 .B mend
 returns a 0 exit status on success and nonzero exit status otherwise.
+
+.SH ENVIRONMENT
+.TP 10
+.B EDITOR
+Specifies which editor to use when creating or editing notes.
 
 .SH SEE ALSO
 \fImenddb\fP(3)
