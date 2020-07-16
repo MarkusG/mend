@@ -18,7 +18,10 @@ int main(int argc, char *argv[])
 
 	char *cmd = opts.identifiers[0];
 	int exit_code;
-	if (strcmp(cmd, "le") == 0 || strcmp(cmd, "list-entities") == 0)
+	if (!cmd) {
+		fprintf(stderr, ERR "no command specified. try mend -h for more information\n");
+		exit_code = 1;
+	} else if (strcmp(cmd, "le") == 0 || strcmp(cmd, "list-entities") == 0)
 		exit_code = list_entities(&opts);
 	else if (strcmp(cmd, "ne") == 0 || strcmp(cmd, "new-entity") == 0)
 		exit_code = new_entity(&opts);
