@@ -11,3 +11,5 @@ lib = library('mend',
   dependencies: deps,
   install: true
 )
+
+install_headers('../include/mend.h')
