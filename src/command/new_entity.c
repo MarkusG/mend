@@ -17,11 +17,7 @@ int new_entity(options *options) {
 		return 1;
 	}
 
-	time_t created = mend_entity_created(entity);
-	printf("%s %s %s",
-			mend_entity_uid(entity),
-			mend_entity_name(entity),
-			asctime(gmtime(&created)));
+	printf("%s\n", mend_entity_uid(entity));
 	mend_free_entity(entity);
 	return 0;
 }
