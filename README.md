@@ -1,6 +1,6 @@
 # mend
 
-mend is a notetaking application that utilizes a relational database.
+mend is a knowledge management application that utilizes a relational database.
 
 ## Building
 
